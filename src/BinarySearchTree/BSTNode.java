@@ -1,53 +1,92 @@
 package BinarySearchTree;
 
-public class BSTNode {
+import Movies.Movie;
 
-    private String key;
-    private Object value;
-    private BSTNode left, right;
+class BSTNode {
 
-    public BSTNode(String key, Object value) {
-        this.key = key;
-        this.value = value;
+    Movie movie;
+    int count;
+    BSTNode left, right;
+
+    /**
+     * Null Constructor
+     */
+    public BSTNode() {
+        movie = null;
+        left = null;
+        right = null;
     }
 
-    //if key not found in BST then it is added. If jey already exists then that node's value
-    //is updated.
-    public void put(String key, Object value) {
-        if (key.compareTo(this.key) < 0) {
-            if (left != null) {
-                left.put(key, value);
-            }
-            else {
-                left = new BSTNode(key, value);
-            }
-        }
-        else if (key.compareTo(this.key) > 0) {
-            if (right != null) {
-                right.put(key, value);
-            }
-            else {
-                right = new BSTNode(key, value);
-            }
-        }
-        else {
-            //update this one
-            this.value = value;
-        }
+    /**
+     * Constructor
+     */
+    public BSTNode(Movie movie) {
+        left = null;
+        right = null;
+        this.movie = movie;
     }
 
-    //find Node with given key and return it's value
-    public Object get(String key)
-    {
-        if (this.key.equals(key)) {
-            return value;
-        }
+    /**
+     * Function to get movie
+     * @return movie
+     */
+    public Movie getMovie() {
+        return movie;
+    }
 
-        if (key.compareTo(this.key) < 0) {
-            return left == null ? null : left.get( key );
-        }
-        else {
-            return right == null ? null : right.get( key );
-        }
+    /**
+     * Function to set movie
+     * @param movie
+     */
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    /**
+     * Function to get count
+     * @return count
+     */
+    public int getCount() {
+        return count;
+    }
+
+    /**
+     * Function to set count
+     * @param count
+     */
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    /**
+     * Function to get left node
+     * @return left node
+     */
+    public BSTNode getLeft() {
+        return left;
+    }
+
+    /**
+     * Function to set left node
+     * @param node
+     */
+    public void setLeft(BSTNode node) {
+        left = node;
+    }
+
+    /**
+     * Function to get right node
+     * @return right node
+     */
+    public BSTNode getRight() {
+        return right;
+    }
+
+    /**
+     * Function to set right node
+     * @param node
+     */
+    public void setRight(BSTNode node) {
+        right = node;
     }
 }

@@ -3,9 +3,11 @@ package Movies;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Movie {
 
+    private int id;
     private String title;
     private ArrayList<String> starring;
     private String director;
