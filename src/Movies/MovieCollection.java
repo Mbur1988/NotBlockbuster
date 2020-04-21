@@ -2,7 +2,7 @@ package Movies;
 
 public class MovieCollection {
 
-    public static Node root;
+    public static MovieNode root;
 
     /**
      * Constructor
@@ -20,7 +20,7 @@ public class MovieCollection {
         // define the movie key as the hash code of the movie's title
         int movieKey = movie.getTitle().hashCode();
         // create a new node to be added tot he tree
-        Node node = new Node(movie);
+        MovieNode node = new MovieNode(movie);
         // if root is null then insert the node as root
         if(root == null) {
             // set node to root
@@ -29,8 +29,8 @@ public class MovieCollection {
             return;
         }
         // declare current and parent placeholders for navigating the tree
-        Node current = root;
-        Node parent = null;
+        MovieNode current = root;
+        MovieNode parent = null;
         // repeat loop until a position is found for the new node
         while (true) {
             // update parent placeholder
@@ -78,7 +78,7 @@ public class MovieCollection {
         // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
         // initialises the current node as root
-        Node current = root;
+        MovieNode current = root;
         // loop until current is null
         while (current != null) {
             // if the key of the current node is equal to the movie key then return true
@@ -106,11 +106,11 @@ public class MovieCollection {
      * @param movieTitle the title of the movie to search for
      * @return the node of the movie
      */
-    public Node Get(String movieTitle) {
+    public MovieNode Get(String movieTitle) {
         // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
         // initialises the current node as root
-        Node current = root;
+        MovieNode current = root;
         // loop until current is null
         while (current != null) {
             // if the key of the current node is equal to the movie key then return the current node
@@ -142,8 +142,8 @@ public class MovieCollection {
         // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
         // declare current and parent placeholders for navigating the tree
-        Node parent = root;
-        Node current = root;
+        MovieNode parent = root;
+        MovieNode current = root;
         // initiate boolean left child indicator as false
         boolean leftChild = false;
         // loop until the node to be deleted has been located or found to not exist
@@ -227,7 +227,7 @@ public class MovieCollection {
         // if node to be deleted has two children then the replacement node is the minimum value of the right subtree
         else if (current.getLeft() != null && current.getRight() != null) {
             // declare the replacement node as the minimum value of the right subtree
-            Node replacement = getReplacement(current);
+            MovieNode replacement = getReplacement(current);
             // if the node to be deleted is the root node then the replacement becomes the root
             if (current == root) {
                 // assign the replacement as root
@@ -252,14 +252,14 @@ public class MovieCollection {
 
     /**
      * Gets the replacement node of one to be deleted. Updates parent left and right variables.
-     * @param deleteNode the node that is to be deleted
+     * @param node the node that is to be deleted
      * @return the node that will take the place of the deleted node
      */
-    public Node getReplacement(Node node) {
+    public MovieNode getReplacement(MovieNode node) {
         // set placeholders for the current, replacement and replacement's parent nodes
-        Node current = node.getRight(); // select the right subtree
-        Node replacement = null;
-        Node parent = null;
+        MovieNode current = node.getRight(); // select the right subtree
+        MovieNode replacement = null;
+        MovieNode parent = null;
         // loop until current is null
         while (current != null) {
             // update placeholders

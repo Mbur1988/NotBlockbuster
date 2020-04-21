@@ -2,19 +2,19 @@ package Movies;
 
 import CustomExceptions.CopiesOutOfBoundsException;
 
-public class Node {
+public class MovieNode {
 
     private int key;
     private int copies;
     private int count;
     private Movie movie;
-    private Node left;
-    private Node right;
+    private MovieNode left;
+    private MovieNode right;
 
     /**
      * Constructor
      */
-    public Node(Movie movie) {
+    public MovieNode(Movie movie) {
         this.key = movie.getTitle().hashCode();
         this.copies = 1;
         this.count = 0;
@@ -120,7 +120,7 @@ public class Node {
      * Function to get left node
      * @return left node
      */
-    public Node getLeft() {
+    public MovieNode getLeft() {
         return left;
     }
 
@@ -128,7 +128,7 @@ public class Node {
      * Function to set left node
      * @param node
      */
-    public void setLeft(Node node) {
+    public void setLeft(MovieNode node) {
         left = node;
     }
 
@@ -136,7 +136,7 @@ public class Node {
      * Function to get right node
      * @return right node
      */
-    public Node getRight() {
+    public MovieNode getRight() {
         return right;
     }
 
@@ -144,7 +144,7 @@ public class Node {
      * Function to set right node
      * @param node
      */
-    public void setRight(Node node) {
+    public void setRight(MovieNode node) {
         right = node;
     }
 }
