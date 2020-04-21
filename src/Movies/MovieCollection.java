@@ -37,21 +37,6 @@ public class MovieCollection {
         while (true) {
             // update parent placeholder
             parent = current;
-<<<<<<< Updated upstream
-//            // if movie already exists then increment the number of copies
-//            if (movieKey == current.getMovie().getTitle().hashCode()) {
-//                // increment copies variable by 1
-//                try {
-//                    current.getMovie().incrementCopies();
-//                } catch (CopiesOutOfBoundsException e) {
-//                    e.printStackTrace();
-//                }
-//                // end method
-//                return;
-//            }
-            // if movie key is less than the current node key then movie will insert into the left subtree
-            if (movieKey < current.getMovie().getTitle().hashCode()) {
-=======
             // if movie already exists then throw MovieAlreadyExistsException
             if (movieKey == current.getMovie().getTitle().hashCode()) {
                 // throw exception
@@ -59,7 +44,6 @@ public class MovieCollection {
             }
             // if movie key is less than the current node key then movie will insert into the left subtree
             else if (movieKey < current.getMovie().getTitle().hashCode()) {
->>>>>>> Stashed changes
                 // select the left subtree as the current subtree
                 current = current.getLeft();
                 // if current is null then the new node can be inserted here

@@ -1,10 +1,6 @@
 package Movies;
 
 import CustomExceptions.CopiesOutOfBoundsException;
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -21,8 +17,6 @@ public class Movie {
     private int copies;
     private int count;
 
-<<<<<<< Updated upstream
-=======
     /**
      * Constructor
      * @param title movie title as string
@@ -33,7 +27,6 @@ public class Movie {
      * @param classification movie classification as string
      * @param release_date movie release date as local time
      */
->>>>>>> Stashed changes
     public Movie(String title,
                  ArrayList<String> starring,
                  String director,
@@ -188,19 +181,11 @@ public class Movie {
      * Function to increment number of copies available
      */
     public void incrementCopies() throws CopiesOutOfBoundsException {
-<<<<<<< Updated upstream
         if (copies == 10) {
             throw new CopiesOutOfBoundsException("Can not store more than 10 DVDs");
         }
         else {
             this.copies++;
-=======
-        if (count == 10) {
-            throw new CopiesOutOfBoundsException("Can not store more than 10 DVDs");
-        }
-        else {
-            this.count++;
->>>>>>> Stashed changes
         }
     }
 
@@ -208,19 +193,11 @@ public class Movie {
      * Function to decrement number of copies available
      */
     public void decrementCopies() throws CopiesOutOfBoundsException {
-<<<<<<< Updated upstream
         if (copies == 0) {
             throw new CopiesOutOfBoundsException("Can not have a negative number of DVDs");
         }
         else {
             this.copies--;
-=======
-        if (count == 0) {
-            throw new CopiesOutOfBoundsException("Can not have a negative number of DVDs");
-        }
-        else {
-            this.count--;
->>>>>>> Stashed changes
         }
     }
 
@@ -249,8 +226,4 @@ public class Movie {
             this.count = count;
         }
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
