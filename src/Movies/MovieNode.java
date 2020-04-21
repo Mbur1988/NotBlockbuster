@@ -1,7 +1,5 @@
 package Movies;
 
-import CustomExceptions.CopiesOutOfBoundsException;
-
 public class MovieNode {
 
     private Movie movie;

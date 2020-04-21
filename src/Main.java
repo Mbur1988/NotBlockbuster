@@ -1,6 +1,6 @@
+import CustomExceptions.MovieAlreadyExistsException;
 import Movies.Movie;
 import Movies.MovieCollection;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
@@ -19,8 +19,12 @@ public class Main {
 
         MovieCollection mc = new MovieCollection();
 
-        mc.Insert(movie);
-        mc.Insert(movie);
+        try {
+            mc.Insert(movie);
+            mc.Insert(movie);
+        } catch (MovieAlreadyExistsException e) {
+            System.out.println("An entry with the same movie title already exists in the tree");
+        }
 
         System.out.println(mc.Find("Pulp Fiction"));
 
@@ -32,7 +36,11 @@ public class Main {
                 "MA15+",
                 LocalDate.of(1994, Month.NOVEMBER, 24));
 
-        mc.Insert(movie);
+        try {
+            mc.Insert(movie);
+        } catch (MovieAlreadyExistsException e) {
+            System.out.println("An entry with the same movie title already exists in the tree");
+        }
 
         System.out.println(mc.Find("Pulp Fiction"));
         System.out.println(mc.Find("lp Fiction"));
@@ -41,7 +49,7 @@ public class Main {
         System.out.println(mc.Get("Pulp Fiction").getMovie().getCopies());
         System.out.println(mc.Get("lp Fiction").getMovie().getGenre());
 
-        mc.Delete("Pulp Fiction");
-        System.out.println(mc.Find("Pulp Fiction"));
+        mc.Delete("lp Fiction");
+        System.out.println(mc.Find("lp Fiction"));
     }
 }

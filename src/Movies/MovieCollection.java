@@ -1,5 +1,7 @@
 package Movies;
 
+import CustomExceptions.MovieAlreadyExistsException;
+
 public class MovieCollection {
 
     public static MovieNode root;
@@ -16,7 +18,7 @@ public class MovieCollection {
      * If a node containing the movie already exists in the tree then increment its number of copies
      * @param movie Instance of Movie class to insert into the tree
      */
-    public void Insert(Movie movie) {
+    public void Insert(Movie movie) throws MovieAlreadyExistsException {
         // define the movie key as the hash code of the movie's title
         int movieKey = movie.getTitle().hashCode();
         // create a new node to be added tot he tree
@@ -35,6 +37,7 @@ public class MovieCollection {
         while (true) {
             // update parent placeholder
             parent = current;
+<<<<<<< Updated upstream
 //            // if movie already exists then increment the number of copies
 //            if (movieKey == current.getMovie().getTitle().hashCode()) {
 //                // increment copies variable by 1
@@ -48,6 +51,15 @@ public class MovieCollection {
 //            }
             // if movie key is less than the current node key then movie will insert into the left subtree
             if (movieKey < current.getMovie().getTitle().hashCode()) {
+=======
+            // if movie already exists then throw MovieAlreadyExistsException
+            if (movieKey == current.getMovie().getTitle().hashCode()) {
+                // throw exception
+                throw new MovieAlreadyExistsException("An entry with the same movie title already exists in the tree");
+            }
+            // if movie key is less than the current node key then movie will insert into the left subtree
+            else if (movieKey < current.getMovie().getTitle().hashCode()) {
+>>>>>>> Stashed changes
                 // select the left subtree as the current subtree
                 current = current.getLeft();
                 // if current is null then the new node can be inserted here
