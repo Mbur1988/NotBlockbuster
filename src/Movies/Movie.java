@@ -7,7 +7,6 @@ import java.util.UUID;
 
 public class Movie {
 
-    private int id;
     private String title;
     private ArrayList<String> starring;
     private String director;

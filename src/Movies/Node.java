@@ -1,19 +1,18 @@
-package BinarySearchTree;
+package Movies;
 
-import Movies.Movie;
-
-public class BSTNode {
+public class Node {
 
     int key;
     int count;
     Movie movie;
-    BSTNode left, right;
+    Node left;
+    Node right;
 
     /**
      * Constructor
      */
-    public BSTNode(Movie movie) {
-        key = movie.hashCode();
+    public Node(Movie movie) {
+        key = movie.getTitle().hashCode();
         count = 1;
         this.movie = movie;
         left = null;
@@ -21,19 +20,11 @@ public class BSTNode {
     }
 
     /**
-     * Function to get movie
-     * @return movie
+     * Function to get key
+     * @return
      */
-    public Movie getMovie() {
-        return movie;
-    }
-
-    /**
-     * Function to set movie
-     * @param movie
-     */
-    public void setMovie(Movie movie) {
-        this.movie = movie;
+    public int getKey() {
+        return key;
     }
 
     /**
@@ -53,10 +44,26 @@ public class BSTNode {
     }
 
     /**
+     * Function to get movie
+     * @return movie
+     */
+    public Movie getMovie() {
+        return movie;
+    }
+
+    /**
+     * Function to set movie
+     * @param movie
+     */
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
+
+    /**
      * Function to get left node
      * @return left node
      */
-    public BSTNode getLeft() {
+    public Node getLeft() {
         return left;
     }
 
@@ -64,7 +71,7 @@ public class BSTNode {
      * Function to set left node
      * @param node
      */
-    public void setLeft(BSTNode node) {
+    public void setLeft(Node node) {
         left = node;
     }
 
@@ -72,7 +79,7 @@ public class BSTNode {
      * Function to get right node
      * @return right node
      */
-    public BSTNode getRight() {
+    public Node getRight() {
         return right;
     }
 
@@ -80,7 +87,7 @@ public class BSTNode {
      * Function to set right node
      * @param node
      */
-    public void setRight(BSTNode node) {
+    public void setRight(Node node) {
         right = node;
     }
 }
