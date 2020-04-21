@@ -1,22 +1,26 @@
 package Movies;
 
+import CustomExceptions.CopiesOutOfBoundsException;
+
 public class Node {
 
-    int key;
-    int count;
-    Movie movie;
-    Node left;
-    Node right;
+    private int key;
+    private int copies;
+    private int count;
+    private Movie movie;
+    private Node left;
+    private Node right;
 
     /**
      * Constructor
      */
     public Node(Movie movie) {
-        key = movie.getTitle().hashCode();
-        count = 1;
+        this.key = movie.getTitle().hashCode();
+        this.copies = 1;
+        this.count = 0;
         this.movie = movie;
-        left = null;
-        right = null;
+        this.left = null;
+        this.right = null;
     }
 
     /**
@@ -25,6 +29,54 @@ public class Node {
      */
     public int getKey() {
         return key;
+    }
+
+    /**
+     * Function to set key
+     * @return
+     */
+    private void setKey(int key) {
+        this.key = key;
+    }
+
+    /**
+     * Function to get the number of available copies
+     * @return
+     */
+    public int getCopies() {
+        return copies;
+    }
+
+    /**
+     * Function to set the number of available copies
+     * @param copies
+     */
+    private void setCopies(int copies) {
+        this.copies = copies;
+    }
+
+    /**
+     * Function to increment number of copies available
+     */
+    public void incrementCopies() throws CopiesOutOfBoundsException {
+        if (count == 10) {
+            throw new CopiesOutOfBoundsException("Can not store more than 10 DVDs");
+        }
+        else {
+            this.count++;
+        }
+    }
+
+    /**
+     * Function to decrement number of copies available
+     */
+    public void decrementCopies() throws CopiesOutOfBoundsException {
+        if (count == 0) {
+            throw new CopiesOutOfBoundsException("Can not have a negative number of DVDs");
+        }
+        else {
+            this.count--;
+        }
     }
 
     /**

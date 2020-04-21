@@ -12,35 +12,57 @@ public class MovieCollection {
     }
 
     /**
-     *
-     * @param movie
+     * Inserts a new movie node into the tree.
+     * If a node containing the movie already exists in the tree then increment its number of copies
+     * @param movie Instance of Movie class to insert into the tree
      */
     public void Insert(Movie movie) {
+        // define the movie key as the hash code of the movie's title
         int movieKey = movie.getTitle().hashCode();
-        Node newNode = new Node(movie);
+        // create a new node to be added tot he tree
+        Node node = new Node(movie);
+        // if root is null then insert the node as root
         if(root == null) {
-            root = newNode;
+            // set node to root
+            root = node;
+            // end method
             return;
         }
+        // declare current and parent placeholders for navigating the tree
         Node current = root;
         Node parent = null;
+        // repeat loop until a position is found for the new node
         while (true) {
+            // update parent placeholder
             parent = current;
-            if (movieKey == current.key) {
+            // if movie already exists then increment the number of copies
+            if (movieKey == current.getKey()) {
+                // increment copies variable by 1
                 current.setCount(current.getCount() + 1);
+                // end method
                 return;
             }
-            else if (movieKey < current.key) {
-                current = current.left;
+            // if movie key is less than the current node key then movie will insert into the left subtree
+            else if (movieKey < current.getKey()) {
+                // select the left subtree as the current subtree
+                current = current.getLeft();
+                // if current is null then the new node can be inserted here
                 if (current == null) {
-                    parent.left = newNode;
+                    // assign the new node to parent left which is the current node
+                    parent.setLeft(node);
+                    // end method
                     return;
                 }
             }
+            // if movie key is less than the current node key then movie will insert into the right subtree
             else {
-                current = current.right;
+                // select the right subtree as the current subtree
+                current = current.getRight();
+                // if current is null then the new node can be inserted here
                 if (current == null) {
-                    parent.right = newNode;
+                    // assign the new node to parent right which is the current node
+                    parent.setRight(node);
+                    // end method
                     return;
                 }
             }
@@ -48,142 +70,210 @@ public class MovieCollection {
     }
 
     /**
-     *
-     * @param movieTitle
-     * @return
+     * Checks whether a movie is in the tree
+     * @param movieTitle the title of the movie to search for
+     * @return true if the movie is present else false
      */
     public boolean Find(String movieTitle) {
+        // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
+        // initialises the current node as root
         Node current = root;
+        // loop until current is null
         while (current != null) {
-            if (current.key == movieKey) {
+            // if the key of the current node is equal to the movie key then return true
+            if (movieKey == current.getKey()) {
+                // return true
                 return true;
             }
-            else if (current.key > movieKey) {
-                current = current.left;
+            // if the movie key is less than the key of the current node then continue searching in the left subtree
+            else if (movieKey < current.getKey()) {
+                // set the left node as the new current node
+                current = current.getLeft();
             }
+            // if the movie key is greater than the key of the current node then continue searching in the right subtree
             else {
-                current = current.right;
+                // set the right node as the new current node
+                current = current.getRight();
             }
         }
+        // if the movie can not be found in the tree then return false
         return false;
     }
 
     /**
-     *
-     * @param movieTitle
-     * @return
+     * Return the node for a particular movie
+     * @param movieTitle the title of the movie to search for
+     * @return the node of the movie
      */
     public Node Get(String movieTitle) {
+        // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
+        // initialises the current node as root
         Node current = root;
+        // loop until current is null
         while (current != null) {
-            if (current.key == movieKey) {
+            // if the key of the current node is equal to the movie key then return the current node
+            if (movieKey == current.getKey()) {
+                // return current node
                 return current;
             }
-            else if (current.key > movieKey) {
-                current = current.left;
+            // if the movie key is less than the key of the current node then continue searching in the left subtree
+            else if (movieKey < current.getKey()) {
+                // set the left node as the new current node
+                current = current.getLeft();
             }
+            // if the movie key is greater than the key of the current node then continue searching in the right subtree
             else {
-                current = current.right;
+                // set the right node as the new current node
+                current = current.getRight();
             }
         }
+        // if the movie can not be found in the tree then return null
         return null;
     }
 
     /**
-     *
-     * @param movieTitle
-     * @return
+     * Deletes a movie from the tree
+     * @param movieTitle the title of the movie to delete
+     * @return true if the movie is deleted successfully else false
      */
     public boolean Delete(String movieTitle) {
+        // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
+        // declare current and parent placeholders for navigating the tree
         Node parent = root;
         Node current = root;
-        boolean isLeftChild = false;
-        while (current.key != movieKey) {
+        // initiate boolean left child indicator as false
+        boolean leftChild = false;
+        // loop until the node to be deleted has been located or found to not exist
+        while (current.getKey() != movieKey) {
+            // assign parent to current
             parent = current;
-            if (current.key > movieKey) {
-                isLeftChild = true;
-                current = current.left;
+            // if the movie key is less than the key of the current node then continue searching in the left subtree
+            if (movieKey < current.getKey()) {
+                // sets left child indicator to true
+                leftChild = true;
+                // set the left node as the new current node
+                current = current.getLeft();
             }
+            // if the movie key is greater than the key of the current node then continue searching in the right subtree
             else {
-                isLeftChild = false;
-                current = current.right;
+                // sets left child indicator to false
+                leftChild = false;
+                // set the right node as the new current node
+                current = current.getRight();
             }
+            // if the current node is found to be null then the movie can not be found and the method returns false
             if (current == null) {
+                // return false
                 return false;
             }
         }
-        //if i am here that means we have found the node
-        //Case 1: if node to be deleted has no children
-        if (current.left == null && current.right == null) {
+        // if node to be deleted has no children then it can simply be deleted
+        if (current.getLeft() == null && current.getRight() == null) {
+            // if node to be deleted is the root node then set root to null
             if (current == root) {
+                // set root null
                 root = null;
             }
-            if (isLeftChild == true) {
-                parent.left = null;
+            // if node to be deleted is the left child node of its parent then set parent's left child to null
+            if (leftChild == true) {
+                // set parent's left child to null
+                parent.setLeft(null);
             }
+            // if node to be deleted is the right child node of its parent then set parent's right child to null
             else {
-                parent.right = null;
+                // set parent's right child to null
+                parent.setRight(null);
             }
         }
-        //Case 2 : if node to be deleted has only one child
-        else if (current.right == null) {
+        // if node to be deleted has only the left child then that child takes its place
+        else if (current.getRight() == null) {
+            // if the node to be deleted is the root node then the left child becomes the root
             if (current == root) {
-                root = current.left;
+                // assign the left child as root
+                root = current.getLeft();
             }
-            else if (isLeftChild) {
-                parent.left = current.left;
+            // if the deleted node is the left child of the parent then the left child is assigned to that parent node
+            else if (leftChild) {
+                // assign the left child as the left child of the parent node
+                parent.setLeft(current.getLeft());
             }
+            // if the deleted node is the right child of the parent then the left child is assigned to that parent node
             else {
-                parent.right = current.left;
+                // assign the left child as the right child of the parent node
+                parent.setRight(current.getLeft());
             }
         }
-        else if (current.left == null) {
+        // if node to be deleted has only the right child then that child takes its place
+        else if (current.getLeft() == null) {
+            // if the node to be deleted is the root node then the right child becomes the root
             if (current == root) {
-                root = current.right;
+                // assign the right child as root
+                root = current.getRight();
             }
-            else if (isLeftChild) {
-                parent.left = current.right;
+            // if the deleted node is the left child of the parent then the right child is assigned to that parent node
+            else if (leftChild) {
+                // assign the right child as the left child of the parent node
+                parent.setLeft(current.getRight());
             }
+            // if the deleted node is the right child of the parent then the right child is assigned to that parent node
             else {
-                parent.right = current.right;
+                // assign the right child as the right child of the parent node
+                parent.setRight(current.getRight());
             }
         }
-        //Case 3 : if node to be deleted has two children
-        else if (current.left != null && current.right != null) {
-
-            //now we have found the minimum element in the right sub tree
-            Node successor = getReplacement(current);
-            if(current == root){
-                root = successor;
+        // if node to be deleted has two children then the replacement node is the minimum value of the right subtree
+        else if (current.getLeft() != null && current.getRight() != null) {
+            // declare the replacement node as the minimum value of the right subtree
+            Node replacement = getReplacement(current);
+            // if the node to be deleted is the root node then the replacement becomes the root
+            if (current == root) {
+                // assign the replacement as root
+                root = replacement;
             }
-            else if (isLeftChild) {
-                parent.left = successor;
+            // if the deleted node is the left child of the parent then the replacement is assigned to that parent node
+            else if (leftChild) {
+                // assign the replacement as the left child of the parent node
+                parent.setLeft(replacement);
             }
+            // if the deleted node is the right child of the parent then the replacement is assigned to that parent node
             else {
-                parent.right = successor;
+                // assign the replacement as the right child of the parent node
+                parent.setRight(replacement);
             }
-            successor.left = current.left;
+            // update the left child node of the replacement to that of the deleted node
+            replacement.setLeft(current.getLeft());
         }
+        // return true to indicate that the movie has been deleted successfully
         return true;
     }
 
-    public Node getReplacement(Node deleleNode) {
+    /**
+     * Gets the replacement node of one to be deleted. Updates parent left and right variables.
+     * @param deleteNode the node that is to be deleted
+     * @return the node that will take the place of the deleted node
+     */
+    public Node getReplacement(Node node) {
+        // set placeholders for the current, replacement and replacement's parent nodes
+        Node current = node.getRight(); // select the right subtree
         Node replacement = null;
-        Node replacementParent = null;
-        Node current = deleleNode.right;
+        Node parent = null;
+        // loop until current is null
         while (current != null) {
-            replacementParent = replacement;
+            // update placeholders
+            parent = replacement;
             replacement = current;
-            current = current.left;
+            // continue down left branch until the minimum is found
+            current = current.getLeft();
         }
-        // check if successor has the right child, it cannot have left child for sure
-        // if it does have the right child, add it to the left of successorParent.
-        if (replacement != deleleNode.right) {
-            replacementParent.left = replacement.right;
-            replacement.right = deleleNode.right;
+        // if the successor has a right child add it to the left child node of its parent
+        if (replacement != node.getRight()) {
+            //
+            parent.setLeft(replacement.getRight());
+            //
+            replacement.setRight(node.getRight());
         }
         return replacement;
     }
