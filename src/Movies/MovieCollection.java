@@ -35,15 +35,19 @@ public class MovieCollection {
         while (true) {
             // update parent placeholder
             parent = current;
-            // if movie already exists then increment the number of copies
-            if (movieKey == current.getKey()) {
-                // increment copies variable by 1
-                current.setCount(current.getCount() + 1);
-                // end method
-                return;
-            }
+//            // if movie already exists then increment the number of copies
+//            if (movieKey == current.getMovie().getTitle().hashCode()) {
+//                // increment copies variable by 1
+//                try {
+//                    current.getMovie().incrementCopies();
+//                } catch (CopiesOutOfBoundsException e) {
+//                    e.printStackTrace();
+//                }
+//                // end method
+//                return;
+//            }
             // if movie key is less than the current node key then movie will insert into the left subtree
-            else if (movieKey < current.getKey()) {
+            if (movieKey < current.getMovie().getTitle().hashCode()) {
                 // select the left subtree as the current subtree
                 current = current.getLeft();
                 // if current is null then the new node can be inserted here
@@ -82,12 +86,12 @@ public class MovieCollection {
         // loop until current is null
         while (current != null) {
             // if the key of the current node is equal to the movie key then return true
-            if (movieKey == current.getKey()) {
+            if (movieKey == current.getMovie().getTitle().hashCode()) {
                 // return true
                 return true;
             }
             // if the movie key is less than the key of the current node then continue searching in the left subtree
-            else if (movieKey < current.getKey()) {
+            else if (movieKey < current.getMovie().getTitle().hashCode()) {
                 // set the left node as the new current node
                 current = current.getLeft();
             }
@@ -114,12 +118,12 @@ public class MovieCollection {
         // loop until current is null
         while (current != null) {
             // if the key of the current node is equal to the movie key then return the current node
-            if (movieKey == current.getKey()) {
+            if (movieKey == current.getMovie().getTitle().hashCode()) {
                 // return current node
                 return current;
             }
             // if the movie key is less than the key of the current node then continue searching in the left subtree
-            else if (movieKey < current.getKey()) {
+            else if (movieKey < current.getMovie().getTitle().hashCode()) {
                 // set the left node as the new current node
                 current = current.getLeft();
             }
@@ -147,11 +151,11 @@ public class MovieCollection {
         // initiate boolean left child indicator as false
         boolean leftChild = false;
         // loop until the node to be deleted has been located or found to not exist
-        while (current.getKey() != movieKey) {
+        while (current.getMovie().getTitle().hashCode() != movieKey) {
             // assign parent to current
             parent = current;
             // if the movie key is less than the key of the current node then continue searching in the left subtree
-            if (movieKey < current.getKey()) {
+            if (movieKey < current.getMovie().getTitle().hashCode()) {
                 // sets left child indicator to true
                 leftChild = true;
                 // set the left node as the new current node

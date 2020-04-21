@@ -38,7 +38,7 @@ public class Main {
         System.out.println(mc.Find("lp Fiction"));
 
         System.out.println(mc.Get("lp Fiction").getMovie().getDirector());
-        System.out.println(mc.Get("Pulp Fiction").getCount());
+        System.out.println(mc.Get("Pulp Fiction").getMovie().getCopies());
         System.out.println(mc.Get("lp Fiction").getMovie().getGenre());
 
         mc.Delete("Pulp Fiction");
