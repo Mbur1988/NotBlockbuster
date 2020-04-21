@@ -40,7 +40,12 @@ public class Node {
      * @param count
      */
     public void setCount(int count) {
-        this.count = count;
+        if (count > 10 || count < 0) {
+            throw new IndexOutOfBoundsException("Index " + count + " is out of bounds!");
+        }
+        else {
+            this.count = count;
+        }
     }
 
     /**

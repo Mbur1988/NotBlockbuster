@@ -41,6 +41,7 @@ public class Main {
         System.out.println(mc.Get("Pulp Fiction").getCount());
         System.out.println(mc.Get("lp Fiction").getMovie().getGenre());
 
-
+        mc.Delete("Pulp Fiction");
+        System.out.println(mc.Find("Pulp Fiction"));
     }
 }
