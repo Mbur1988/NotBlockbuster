@@ -3,12 +3,26 @@ package UserInterface;
 import CustomExceptions.MovieAlreadyExistsException;
 import Main.Main;
 import Movies.Movie;
-
-import static Movies.Movie.classifications;
-import static Movies.Movie.genres;
 import static UserInterface.MainMenu.mainMenu;
 
 public class StaffMenu {
+
+    private static String[] genres = {
+            "Drama",
+            "Adventure",
+            "Family",
+            "Action",
+            "Sci-Fi",
+            "Comedy",
+            "Animated",
+            "Thriller",
+            "Other"};
+
+    private static String[] classifications = {
+            "General (G)",
+            "Parental Guidance (PG)",
+            "Mature (M15+)",
+            "Mature Accompanied (MA15+)"};
 
     static void staffLogin() {
         System.out.println();

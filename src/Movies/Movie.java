@@ -4,23 +4,6 @@ import CustomExceptions.CopiesOutOfBoundsException;
 
 public class Movie {
 
-    public static String[] genres = {
-            "Drama",
-            "Adventure",
-            "Family",
-            "Action",
-            "Sci-Fi",
-            "Comedy",
-            "Animated",
-            "Thriller",
-            "Other"};
-
-    public static String[] classifications = {
-            "General (G)",
-            "Parental Guidance (PG)",
-            "Mature (M15+)",
-            "Mature Accompanied (MA15+)"};
-
     private String title;
     private String starring;
     private String director;
@@ -235,5 +218,17 @@ public class Movie {
         else {
             this.count = count;
         }
+    }
+
+    public void display() {
+        System.out.println("Title: " + title);
+        System.out.println("Starring: " + starring);
+        System.out.println("Director: " + director);
+        System.out.println("Genre: " + genre);
+        System.out.println("Classification" + classification);
+        System.out.println("Duration: " + duration);
+        System.out.println("Release Date" + release_date);
+        System.out.println("Copies Available" + copies);
+        System.out.println("Times Rented" + count);
     }
 }

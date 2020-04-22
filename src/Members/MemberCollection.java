@@ -11,4 +11,11 @@ public class MemberCollection {
         this.members = new Member[100];
     }
 
+    public void add(Member member) {
+
+    }
+
+    public void search(String full_name) {
+
+    }
 }

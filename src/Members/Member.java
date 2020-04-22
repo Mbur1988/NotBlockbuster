@@ -6,8 +6,7 @@ import java.util.ArrayList;
 
 public class Member {
 
-    private String first_name;
-    private String last_name;
+    private String full_name;
     private String address;
     private String number;
     private int password;
@@ -18,45 +17,39 @@ public class Member {
      * @param full_name members full name
      * @param address members residential address
      * @param number members contact phone number
+     * @param password members password
      */
-    public Member(String full_name, String address, String number) {
-        this.first_name = full_name;
-
+    public Member(String full_name, String address, String number, int password) {
+        this.full_name = full_name;
         this.address = address;
         this.number = number;
+        this.password = password;
         this.renting = new ArrayList<Movie>();
     }
 
     /**
-     * gets the first name of the member
-     * @return first name as string
+     * gets the full name of the member
+     * @return full name as string
      */
-    public String getFirst_name() {
-        return first_name;
+    public String getFull_name() {
+        return full_name;
     }
 
     /**
-     * sets the first name of the member
+     * sets the full name of the member
+     * @param full_name as string
+     */
+    public void setFirst_name(String full_name) {
+        this.full_name = full_name;
+    }
+
+    /**
+     * sets the full name of the member
      * @param first_name as string
-     */
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    /**
-     * gets the last name of the member
-     * @return last name as string
-     */
-    public String getLast_name() {
-        return last_name;
-    }
-
-    /**
-     * sets the last name of the member
      * @param last_name as string
      */
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setFirst_name(String first_name, String last_name) {
+        this.full_name = last_name + first_name;
     }
 
     /**
@@ -149,5 +142,9 @@ public class Member {
         else {
             this.renting = renting;
         }
+    }
+
+    public int getKey() {
+        return full_name.hashCode();
     }
 }
