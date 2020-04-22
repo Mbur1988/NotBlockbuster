@@ -40,7 +40,7 @@ public class MovieCollection {
             // if movie already exists then throw MovieAlreadyExistsException
             if (movieKey == current.getMovie().getTitle().hashCode()) {
                 // throw exception
-                throw new MovieAlreadyExistsException("An entry with the same movie title already exists in the tree");
+                throw new MovieAlreadyExistsException();
             }
             // if movie key is less than the current node key then movie will insert into the left subtree
             else if (movieKey < current.getMovie().getTitle().hashCode()) {
@@ -74,7 +74,7 @@ public class MovieCollection {
      * @param movieTitle the title of the movie to search for
      * @return true if the movie is present else false
      */
-    public boolean Find(String movieTitle) {
+    private boolean Find(String movieTitle) {
         // define the movie key as the hash code of the movie's title
         int movieKey = movieTitle.hashCode();
         // initialises the current node as root
@@ -255,7 +255,7 @@ public class MovieCollection {
      * @param node the node that is to be deleted
      * @return the node that will take the place of the deleted node
      */
-    public MovieNode getReplacement(MovieNode node) {
+    private MovieNode getReplacement(MovieNode node) {
         // set placeholders for the current, replacement and replacement's parent nodes
         MovieNode current = node.getRight(); // select the right subtree
         MovieNode replacement = null;

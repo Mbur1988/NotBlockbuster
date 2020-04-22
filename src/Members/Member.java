@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 public class Member {
 
-    private String full_name;
+    private String first_name;
+    private String last_name;
     private String address;
     private String number;
+    private int password;
     private ArrayList<Movie> renting;
 
     /**
@@ -18,26 +20,43 @@ public class Member {
      * @param number members contact phone number
      */
     public Member(String full_name, String address, String number) {
-        this.full_name = full_name;
+        this.first_name = full_name;
+
         this.address = address;
         this.number = number;
         this.renting = new ArrayList<Movie>();
     }
 
     /**
-     * gets the full name of the member
-     * @return full name as string
+     * gets the first name of the member
+     * @return first name as string
      */
-    public String getFull_name() {
-        return full_name;
+    public String getFirst_name() {
+        return first_name;
     }
 
     /**
-     * sets the full name of the member
-     * @param full_name as string
+     * sets the first name of the member
+     * @param first_name as string
      */
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    /**
+     * gets the last name of the member
+     * @return last name as string
+     */
+    public String getLast_name() {
+        return last_name;
+    }
+
+    /**
+     * sets the last name of the member
+     * @param last_name as string
+     */
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     /**
@@ -70,6 +89,22 @@ public class Member {
      */
     public void setNumber(String number) {
         this.number = number;
+    }
+
+    /**
+     * gets the password of the member
+     * @return password as integer
+     */
+    public int getPassword() {
+        return password;
+    }
+
+    /**
+     * sets the password of the member
+     * @param password as integer
+     */
+    public void setPassword(int password) {
+        this.password = password;
     }
 
     /**
