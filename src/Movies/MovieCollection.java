@@ -19,9 +19,7 @@ public class MovieCollection {
      * @param movie Instance of Movie class to insert into the tree
      */
     public void Insert(Movie movie) throws MovieAlreadyExistsException {
-        // define the movie key as the hash code of the movie's title
-        int movieKey = movie.getTitle().hashCode();
-        // create a new node to be added tot he tree
+        // create a new node to be added to the tree
         MovieNode node = new MovieNode(movie);
         // if root is null then insert the node as root
         if(root == null) {
@@ -37,13 +35,8 @@ public class MovieCollection {
         while (true) {
             // update parent placeholder
             parent = current;
-            // if movie already exists then throw MovieAlreadyExistsException
-            if (movieKey == current.getMovie().getTitle().hashCode()) {
-                // throw exception
-                throw new MovieAlreadyExistsException();
-            }
-            // if movie key is less than the current node key then movie will insert into the left subtree
-            else if (movieKey < current.getMovie().getTitle().hashCode()) {
+            // if movie title is smaller than the current node title then movie will insert into the left subtree
+            if (movie.getTitle().compareTo(current.getMovie().getTitle()) < 0) {
                 // select the left subtree as the current subtree
                 current = current.getLeft();
                 // if current is null then the new node can be inserted here
@@ -54,8 +47,8 @@ public class MovieCollection {
                     return;
                 }
             }
-            // if movie key is less than the current node key then movie will insert into the right subtree
-            else {
+            // if movie title is greater than the current node title then movie will insert into the right subtree
+            else if (movie.getTitle().compareTo(current.getMovie().getTitle()) > 0) {
                 // select the right subtree as the current subtree
                 current = current.getRight();
                 // if current is null then the new node can be inserted here
@@ -66,6 +59,11 @@ public class MovieCollection {
                     return;
                 }
             }
+            // if movie already exists then throw MovieAlreadyExistsException
+            else {
+                // throw exception
+                throw new MovieAlreadyExistsException();
+            }
         }
     }
 
@@ -75,26 +73,24 @@ public class MovieCollection {
      * @return true if the movie is present else false
      */
     private boolean Find(String movieTitle) {
-        // define the movie key as the hash code of the movie's title
-        int movieKey = movieTitle.hashCode();
         // initialises the current node as root
         MovieNode current = root;
         // loop until current is null
         while (current != null) {
-            // if the key of the current node is equal to the movie key then return true
-            if (movieKey == current.getMovie().getTitle().hashCode()) {
-                // return true
-                return true;
-            }
-            // if the movie key is less than the key of the current node then continue searching in the left subtree
-            else if (movieKey < current.getMovie().getTitle().hashCode()) {
+            // if the movie title is smaller than the title of the current node then search in the left subtree
+            if (movieTitle.compareTo(current.getMovie().getTitle()) < 0) {
                 // set the left node as the new current node
                 current = current.getLeft();
             }
-            // if the movie key is greater than the key of the current node then continue searching in the right subtree
-            else {
+            // if the movie title is greater than the title of the current node then search in the right subtree
+            else if (movieTitle.compareTo(current.getMovie().getTitle()) > 0) {
                 // set the right node as the new current node
                 current = current.getRight();
+            }
+            // if the key of the current node is equal to the movie key then return true
+            else {
+                // return true
+                return true;
             }
         }
         // if the movie can not be found in the tree then return false
@@ -107,26 +103,24 @@ public class MovieCollection {
      * @return the node of the movie
      */
     public MovieNode Get(String movieTitle) {
-        // define the movie key as the hash code of the movie's title
-        int movieKey = movieTitle.hashCode();
         // initialises the current node as root
         MovieNode current = root;
         // loop until current is null
         while (current != null) {
-            // if the key of the current node is equal to the movie key then return the current node
-            if (movieKey == current.getMovie().getTitle().hashCode()) {
-                // return current node
-                return current;
-            }
             // if the movie key is less than the key of the current node then continue searching in the left subtree
-            else if (movieKey < current.getMovie().getTitle().hashCode()) {
+            if (movieTitle.compareTo(current.getMovie().getTitle()) < 0) {
                 // set the left node as the new current node
                 current = current.getLeft();
             }
             // if the movie key is greater than the key of the current node then continue searching in the right subtree
-            else {
+            else if (movieTitle.compareTo(current.getMovie().getTitle()) > 0) {
                 // set the right node as the new current node
                 current = current.getRight();
+            }
+            // if the key of the current node is equal to the movie key then return the current node
+            else {
+                // return current node
+                return current;
             }
         }
         // if the movie can not be found in the tree then return null
@@ -139,33 +133,31 @@ public class MovieCollection {
      * @return true if the movie is deleted successfully else false
      */
     public boolean Delete(String movieTitle) {
-        // define the movie key as the hash code of the movie's title
-        int movieKey = movieTitle.hashCode();
         // declare current and parent placeholders for navigating the tree
         MovieNode parent = root;
         MovieNode current = root;
         // initiate boolean left child indicator as false
         boolean leftChild = false;
         // loop until the node to be deleted has been located or found to not exist
-        while (current.getMovie().getTitle().hashCode() != movieKey) {
+        while (!movieTitle.equals(current.getMovie().getTitle())) {
             // assign parent to current
             parent = current;
-            // if the movie key is less than the key of the current node then continue searching in the left subtree
-            if (movieKey < current.getMovie().getTitle().hashCode()) {
+            // if the movie title is smaller than the title of the current node then search in the left subtree
+            if (movieTitle.compareTo(current.getMovie().getTitle()) < 0) {
                 // sets left child indicator to true
                 leftChild = true;
                 // set the left node as the new current node
                 current = current.getLeft();
             }
-            // if the movie key is greater than the key of the current node then continue searching in the right subtree
-            else {
+            // if the movie title is greater than the title of the current node then search in the right subtree
+            else if (movieTitle.compareTo(current.getMovie().getTitle()) > 0) {
                 // sets left child indicator to false
                 leftChild = false;
                 // set the right node as the new current node
                 current = current.getRight();
             }
             // if the current node is found to be null then the movie can not be found and the method returns false
-            if (current == null) {
+            else {
                 // return false
                 return false;
             }

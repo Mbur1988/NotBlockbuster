@@ -1,7 +1,6 @@
 package Main;
 
 import Members.MemberCollection;
-import Movies.Movie;
 import Movies.MovieCollection;
 import java.util.Scanner;
 import static UserInterface.MainMenu.mainMenu;
