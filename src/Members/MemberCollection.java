@@ -1,18 +1,22 @@
 package Members;
 
 import CustomExceptions.MemberAlreadyExistsException;
+import CustomExceptions.MemberDoesNotExistException;
 import CustomExceptions.MembersOutOfBoundsException;
-import CustomExceptions.MovieAlreadyExistsException;
 
 public class MemberCollection {
 
+    static final int MAX_MEMBERS = 10;
+
     public static Member[] members; // kept sorted
+    static int memberCount;
 
     /**
      * Constructor
      */
     public MemberCollection() {
-        this.members = new Member[20];
+        this.members = new Member[MAX_MEMBERS];
+        this.memberCount = 0;
     }
 
     /**
@@ -23,48 +27,69 @@ public class MemberCollection {
      */
     public void add(Member member) throws MemberAlreadyExistsException, MembersOutOfBoundsException {
         // if the last array element is not null then the array is already full
-        if (members[members.length - 1] != null) {
+        if (memberCount == MAX_MEMBERS) {
             // throw members out of bounds exception
             throw new MembersOutOfBoundsException();
         }
         // if there is space in the array
         else {
             // increment through each array element until either of the if statements are met
-            for (int i = 0; i < members.length; i++) {
+            for (int i = 0; i < memberCount; i++) {
                 // if the member name already exists then duplicate member can not be added
                 if (member.getFull_name().equals(members[i].getFull_name())) {
                     // throw new member already exists exception
                     throw new MemberAlreadyExistsException();
                 }
                 // if the current array position member is greater than the new member then insert here
-                else if (members[i].getFull_name().compareTo(member.getFull_name()) > 0) {
+                if (members[i].getFull_name().compareTo(member.getFull_name()) > 0) {
                     // first shift all elements greater than and including i one position to the right
-                    for (int j = members.length - 1; j > i; j--) {
+                    for (int j = memberCount; j > i; j--) {
                         // shift element one position right
                         members[j] = members[j - 1];
                     }
                     // once elements greater than member shifted, insert new member at i
                     members[i] = member;
-                    // end method
-                    return;
-                }
-                // if the current position is null then the new member can be inserted here
-                else if (members[i] == null) {
-                    // insert new member
-                    members[i] = member;
+                    memberCount++;
                     // end method
                     return;
                 }
             }
+            // if this code is reached then the new member is greater then all current members and inserts at the end
+            members[memberCount] = member;
+            memberCount++;
         }
     }
 
+//    /**
+//     * Removes a current member from the sorted members array using binary search
+//     * @param member the member to be deleted
+//     */
+//    public void remove(Member member) throws MemberDoesNotExistException {
+//        int index = search(member.getFull_name());
+//        if (index == -1) {
+//            throw new MemberDoesNotExistException();
+//        }
+//        for (int i = index; i < memberCount - 1; i++) {
+//            members[i] = members[i + 1];
+//        }
+//        members[memberCount - 1] = null;
+//        memberCount--;
+//    }
+
     /**
      * Removes a current member from the sorted members array using binary search
-     * @param member the member to be deleted
+     * @param member full name of the member to be deleted
      */
-    public void remove(Member member) {
-
+    public void remove(String member) throws MemberDoesNotExistException {
+        int index = search(member);
+        if (index == -1) {
+            throw new MemberDoesNotExistException();
+        }
+        for (int i = index; i < memberCount - 1; i++) {
+            members[i] = members[i + 1];
+        }
+        members[memberCount - 1] = null;
+        memberCount--;
     }
 
     /**
@@ -73,6 +98,33 @@ public class MemberCollection {
      * @return the index of the element as a integer else -1
      */
     public int search(String full_name) {
-
+        // set lower search index to be the starting index of the array
+        int lower = 0;
+        // set upper search index to be the last populated index of the array
+        int upper = memberCount - 1;
+        // initiate current search index
+        int mid = (lower + upper) / 2;
+        // loop until the search is exhausted
+        while (lower <= upper) {
+            // if the member is found then return the index
+            if (full_name.equals(members[mid].getFull_name())) {
+                // return index
+                return mid;
+            }
+            // if the member is less than the member at current index then continue search on the left side
+            else if (full_name.compareTo(members[mid].getFull_name()) < 0) {
+                // set high upper index to current index -1
+                upper = mid - 1;
+            }
+            // if the member is greater than the member at current index then continue search on the right side
+            else {
+                // set lower index to current index +1
+                lower = mid + 1;
+            }
+            // update current search index
+            mid = (lower + upper) / 2;
+        }
+        // if the member does not exist in the members array then return -1
+        return -1;
     }
 }
