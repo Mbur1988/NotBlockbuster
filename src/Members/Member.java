@@ -2,6 +2,8 @@ package Members;
 
 import CustomExceptions.MovieAlreadyExistsException;
 import CustomExceptions.MovieDoesNotExistException;
+import CustomExceptions.PasswordOutOfBoundsException;
+import CustomExceptions.RentalsOutOfBoundsException;
 
 public class Member {
 
@@ -9,7 +11,7 @@ public class Member {
     private String address;
     private String number;
     private int password;
-    private String[] renting; // kept unsorted
+    String[] renting; // kept unsorted
 
     /**
      * Constructor
@@ -19,11 +21,11 @@ public class Member {
      * @param number    members contact phone number
      * @param password  members password
      */
-    public Member(String full_name, String address, String number, int password) {
+    public Member(String full_name, String address, String number, String password) throws PasswordOutOfBoundsException {
         this.full_name = full_name;
         this.address = address;
         this.number = number;
-        this.password = password;
+        setPassword(password);
         this.renting = new String[10];
     }
 
@@ -105,8 +107,11 @@ public class Member {
      *
      * @param password as integer
      */
-    public void setPassword(int password) {
-        this.password = password;
+    public void setPassword(String password) throws PasswordOutOfBoundsException {
+        if (password.length() != 4) {
+            throw new PasswordOutOfBoundsException();
+        }
+        this.password = Integer.parseInt(password);
     }
 
     /**
@@ -114,12 +119,15 @@ public class Member {
      * @param movieTitle
      * @throws MovieAlreadyExistsException
      */
-    public void Rent(String movieTitle) throws MovieAlreadyExistsException {
+    public void Rent(String movieTitle) throws MovieAlreadyExistsException, RentalsOutOfBoundsException {
+        if (renting[renting.length - 1] != null) {
+            throw new RentalsOutOfBoundsException();
+        }
         for (int i = 0; i < renting.length; i++) {
             if (movieTitle.equals(renting[i])) {
                 throw new MovieAlreadyExistsException();
             }
-            if (movieTitle.equals(null)) {
+            if (renting[i] == null) {
                 renting[i] = movieTitle;
                 return;
             }
@@ -149,7 +157,7 @@ public class Member {
      * @param movieTitle
      * @return true if member is currently renting the movie title else false
      */
-    public boolean renting(String movieTitle) {
+    public boolean Renting(String movieTitle) {
         for (int i = 0; i < renting.length; i++) {
             if (movieTitle.equals(renting[i])) {
                 return true;
