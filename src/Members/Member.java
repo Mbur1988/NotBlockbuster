@@ -9,7 +9,7 @@ public class Member {
     private String address;
     private String number;
     private int password;
-    private String[] renting;
+    private String[] renting; // kept unsorted
 
     /**
      * Constructor
@@ -110,7 +110,7 @@ public class Member {
     }
 
     /**
-     * adds movie to the renting list
+     * adds movie to the unsorted renting list
      * @param movieTitle
      * @throws MovieAlreadyExistsException
      */
@@ -127,7 +127,7 @@ public class Member {
     }
 
     /**
-     * removes movie from renting list
+     * removes movie from the unsorted renting list
      * @param movieTitle
      * @throws MovieDoesNotExistException
      */
@@ -142,5 +142,19 @@ public class Member {
             }
         }
         throw new MovieDoesNotExistException();
+    }
+
+    /**
+     * checks whether the member is currently renting a specific movie title
+     * @param movieTitle
+     * @return true if member is currently renting the movie title else false
+     */
+    public boolean renting(String movieTitle) {
+        for (int i = 0; i < renting.length; i++) {
+            if (movieTitle.equals(renting[i])) {
+                return true;
+            }
+        }
+        return false;
     }
 }
