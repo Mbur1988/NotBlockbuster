@@ -221,6 +221,7 @@ public class Movie {
     }
 
     public void display() {
+        System.out.println();
         System.out.println("Title: " + title);
         System.out.println("Starring: " + starring);
         System.out.println("Director: " + director);

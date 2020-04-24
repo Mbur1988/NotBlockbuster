@@ -1,6 +1,7 @@
 package Movies;
 
 import CustomExceptions.MovieAlreadyExistsException;
+import CustomExceptions.MovieDoesNotExistException;
 
 public class MovieCollection {
 
@@ -16,13 +17,14 @@ public class MovieCollection {
     /**
      * Inserts a new movie node into the tree.
      * If a node containing the movie already exists in the tree then increment its number of copies
+     *
      * @param movie Instance of Movie class to insert into the tree
      */
     public void Insert(Movie movie) throws MovieAlreadyExistsException {
         // create a new node to be added to the tree
         MovieNode node = new MovieNode(movie);
         // if root is null then insert the node as root
-        if(root == null) {
+        if (root == null) {
             // set node to root
             root = node;
             // end method
@@ -69,6 +71,7 @@ public class MovieCollection {
 
     /**
      * Checks whether a movie is in the tree
+     *
      * @param movieTitle the title of the movie to search for
      * @return true if the movie is present else false
      */
@@ -99,6 +102,7 @@ public class MovieCollection {
 
     /**
      * Return the node for a particular movie
+     *
      * @param movieTitle the title of the movie to search for
      * @return the node of the movie
      */
@@ -129,17 +133,21 @@ public class MovieCollection {
 
     /**
      * Deletes a movie from the tree
+     *
      * @param movieTitle the title of the movie to delete
      * @return true if the movie is deleted successfully else false
      */
-    public boolean Delete(String movieTitle) {
+    public boolean Delete(String movieTitle) throws NullPointerException {
+//        if (root == null) {
+//            return false;
+//        }
         // declare current and parent placeholders for navigating the tree
         MovieNode parent = root;
         MovieNode current = root;
         // initiate boolean left child indicator as false
         boolean leftChild = false;
         // loop until the node to be deleted has been located or found to not exist
-        while (!movieTitle.equals(current.getMovie().getTitle())) {
+        while (current != null && !movieTitle.equals(current.getMovie().getTitle())) {
             // assign parent to current
             parent = current;
             // if the movie title is smaller than the title of the current node then search in the left subtree
@@ -156,11 +164,11 @@ public class MovieCollection {
                 // set the right node as the new current node
                 current = current.getRight();
             }
-            // if the current node is found to be null then the movie can not be found and the method returns false
-            else {
-                // return false
-                return false;
-            }
+        }
+        // if the current node is found to be null then the movie can not be found and the method returns false
+        if (current == null) {
+            // return false
+            return false;
         }
         // if node to be deleted has no children then it can simply be deleted
         if (current.getLeft() == null && current.getRight() == null) {
@@ -244,6 +252,7 @@ public class MovieCollection {
 
     /**
      * Gets the replacement node of one to be deleted. Updates parent left and right variables.
+     *
      * @param node the node that is to be deleted
      * @return the node that will take the place of the deleted node
      */
@@ -268,5 +277,18 @@ public class MovieCollection {
             replacement.setRight(node.getRight());
         }
         return replacement;
+    }
+
+    public void inOrder() {
+        inOrder(root);
+    }
+
+    private void inOrder(MovieNode node) {
+        if (node == null) {
+            return;
+        }
+        inOrder(node.getLeft());
+        node.getMovie().display();
+        inOrder(node.getRight());
     }
 }

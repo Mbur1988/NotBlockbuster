@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberCollectionTest {
 
     private static final int MAX_MEMBERS = MemberCollection.MAX_MEMBERS;
+
     MemberCollection memberCollection;
 
     @BeforeEach

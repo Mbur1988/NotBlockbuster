@@ -1,8 +1,14 @@
 package UserInterface;
 
+import CustomExceptions.MemberAlreadyExistsException;
+import CustomExceptions.MembersOutOfBoundsException;
 import CustomExceptions.MovieAlreadyExistsException;
-import Main.Main;
+import CustomExceptions.PasswordOutOfBoundsException;
+import Members.Member;
 import Movies.Movie;
+import static Main.Main.input;
+import static Main.Main.memberCollection;
+import static Main.Main.movieCollection;
 import static UserInterface.MainMenu.mainMenu;
 
 public class StaffMenu {
@@ -27,9 +33,9 @@ public class StaffMenu {
     static void staffLogin() {
         System.out.println();
         System.out.print("Enter Username: ");
-        String username = Main.input.nextLine();
+        String username = input.nextLine();
         System.out.print("Enter Password: ");
-        String password = Main.input.nextLine();
+        String password = input.nextLine();
         if (username.equals("staff") && password.equals("today123")) {
             staffMenu();
         }
@@ -51,7 +57,7 @@ public class StaffMenu {
         while (true) {
             System.out.print("Please make a selection (1-4, or 0 to return to main menu): ");
 
-            String line = Main.input.nextLine();
+            String line = input.nextLine();
             if (line.equals("0")) {
                 mainMenu();
             } else if (line.equals("1")) {
@@ -70,29 +76,29 @@ public class StaffMenu {
 
     private static void addMovie() {
         System.out.print("\nEnter the movie title: ");
-        String title = Main.input.nextLine();
+        String title = input.nextLine();
         System.out.print("Enter the starring actor(s): ");
-        String starring = Main.input.nextLine();
+        String starring = input.nextLine();
         System.out.print("Enter the director(s): ");
-        String director = Main.input.nextLine();
+        String director = input.nextLine();
         String genre = getGenre();
         String classification = getClassification();
         Integer duration = null;
         while(duration == null) {
             System.out.print("Enter the duration (minutes): ");
-            try { duration = Integer.parseInt(Main.input.nextLine()); }
+            try { duration = Integer.parseInt(input.nextLine()); }
             catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
         }
         Integer release_date = null;
         while(release_date == null) {
             System.out.print("Enter the release date (year): ");
-            try { release_date = Integer.parseInt(Main.input.nextLine()); }
+            try { release_date = Integer.parseInt(input.nextLine()); }
             catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
         }
         Integer copies = null;
         while(copies == null) {
             System.out.print("Enter the number of copies available: ");
-            try { copies = Integer.parseInt(Main.input.nextLine()); }
+            try { copies = Integer.parseInt(input.nextLine()); }
             catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
         }
         Movie movie = new Movie(title,
@@ -104,7 +110,7 @@ public class StaffMenu {
                 release_date,
                 copies);
         try {
-            Main.movieCollection.Insert(movie);
+            movieCollection.Insert(movie);
         }
         catch (MovieAlreadyExistsException e) {
             System.out.println("A movie with this title already exists in the movie collection");
@@ -122,7 +128,7 @@ public class StaffMenu {
         while(number == null) {
             System.out.print("Make selection(1-9): ");
             try {
-                number = Integer.parseInt(Main.input.nextLine());
+                number = Integer.parseInt(input.nextLine());
                 if (number < 1 || number > 9) {
                     number = null;
                     System.out.println("Must me a valid integer!");
@@ -145,7 +151,7 @@ public class StaffMenu {
         while(number == null) {
             System.out.print("Make selection(1-4): ");
             try {
-                number = Integer.parseInt(Main.input.nextLine());
+                number = Integer.parseInt(input.nextLine());
                 if (number < 1 || number > 4) {
                     number = null;
                     System.out.println("Must me a valid integer!");
@@ -160,18 +166,54 @@ public class StaffMenu {
 
     private static void removeMovie() {
         System.out.print("\nEnter the title of the movie to be deleted: ");
-        String title = Main.input.nextLine();
-        if(!Main.movieCollection.Delete(title)) {
+        String title = input.nextLine();
+        if(!movieCollection.Delete(title)) {
             System.out.println("No movie with this title exists in the movie collection");
         }
         staffMenu();
     }
 
     private static void registerMember() {
-
+        System.out.print("\nEnter member's first name: ");
+        String first = input.nextLine();
+        System.out.print("Enter member's last name ");
+        String last = input.nextLine();
+        if (memberCollection.search(last+first) != -1) {
+            System.out.println(first + " " + last + " has already registered.");
+            return;
+        }
+        System.out.print("Enter member's address: ");
+        String address = input.nextLine();
+        System.out.print("Enter member's phone number: ");
+        String phone = input.nextLine();
+        System.out.print("Enter member's password(4 digits): ");
+        String password = input.nextLine();
+        try {
+            Member member = new Member(last+first, address, phone, password);
+            memberCollection.add(member);
+            System.out.println("Successfully added " + first + " " + last);
+        }
+        catch (PasswordOutOfBoundsException e) {
+            System.out.println("Invalid password - password must be 4 digits");
+        }
+        catch (MemberAlreadyExistsException e) {
+            System.out.println("A member with this name already exists - member names must be unique");
+        }
+        catch (MembersOutOfBoundsException e) {
+            System.out.println("Member collection is full" +
+                    " - an existing member must be removed before a new member can be added");
+        }
+        staffMenu();
     }
 
     private static void findNumber() {
-
+        System.out.print("\nEnter member's first name: ");
+        String first = input.nextLine();
+        System.out.print("Enter member's last name ");
+        String last = input.nextLine();
+        int index = memberCollection.search(last + first);
+        String number = memberCollection.members[index].getNumber();
+        System.out.println(first + " " + last + "'s phone number is: " + number);
+        staffMenu();
     }
 }

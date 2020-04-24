@@ -2,9 +2,9 @@ package Movies;
 
 public class MovieNode {
 
-    private Movie movie;
-    private MovieNode left;
-    private MovieNode right;
+    Movie movie;
+    MovieNode left;
+    MovieNode right;
 
     /**
      * Constructor
