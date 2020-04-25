@@ -220,16 +220,23 @@ public class Movie {
         }
     }
 
+    /**
+     * Function to increment number of times the movie has been rented
+     */
+    public void incrementCount() {
+        this.count++;
+    }
+
     public void display() {
         System.out.println();
         System.out.println("Title: " + title);
         System.out.println("Starring: " + starring);
         System.out.println("Director: " + director);
         System.out.println("Genre: " + genre);
-        System.out.println("Classification" + classification);
+        System.out.println("Classification: " + classification);
         System.out.println("Duration: " + duration);
-        System.out.println("Release Date" + release_date);
-        System.out.println("Copies Available" + copies);
-        System.out.println("Times Rented" + count);
+        System.out.println("Release Date: " + release_date);
+        System.out.println("Copies Available: " + copies);
+        System.out.println("Times Rented: " + count);
     }
 }

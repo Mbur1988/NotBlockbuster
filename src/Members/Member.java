@@ -165,4 +165,15 @@ public class Member {
         }
         return false;
     }
+
+    public void showRenting() {
+        for (int i = 0; i < renting.length; i++) {
+            if (renting[i] != null) {
+                System.out.println(renting[i]);
+            }
+            else {
+                return;
+            }
+        }
+    }
 }

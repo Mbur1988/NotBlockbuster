@@ -20,14 +20,22 @@ class MemberCollectionTest {
 
     @Test
     void add_1() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test",
+                "test",
+                "test",
+                "0000"));
         assertEquals(MemberCollection.memberCount, 1);
     }
 
     @Test
     void addMax() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         assertEquals(MemberCollection.memberCount, MAX_MEMBERS);
     }
@@ -35,31 +43,59 @@ class MemberCollectionTest {
     @Test
     void addExceedMax() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         assertThrows(MembersOutOfBoundsException.class, () ->
-                memberCollection.add(new Member("test" + MAX_MEMBERS, "test", "test", "0000")));
+                memberCollection.add(new Member(
+                        "test" + MAX_MEMBERS,
+                        "test",
+                        "test",
+                        "0000")));
     }
 
     @Test
     void addAlreadyExists() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test",
+                "test",
+                "test",
+                "0000"));
         assertThrows(MemberAlreadyExistsException.class, () ->
-                memberCollection.add(new Member("test", "test", "test", "0000")));
+                memberCollection.add(new Member(
+                        "test",
+                        "test",
+                        "test",
+                        "0000")));
     }
 
     @Test
     void addExceedOverAlreadyExists() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         assertThrows(MembersOutOfBoundsException.class, () ->
-                memberCollection.add(new Member("test0", "test", "test", "0000")));
+                memberCollection.add(new Member(
+                        "test0",
+                        "test",
+                        "test",
+                        "0000")));
     }
 
     @Test
     void remove_1() throws MemberDoesNotExistException, MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test",
+                "test",
+                "test",
+                "0000"));
         memberCollection.remove("test");
         assertEquals(MemberCollection.memberCount, 0);
     }
@@ -67,7 +103,11 @@ class MemberCollectionTest {
     @Test
     void removeLast() throws MemberDoesNotExistException, MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         memberCollection.remove("test" + (MAX_MEMBERS - 1));
         assertEquals(MemberCollection.memberCount, MAX_MEMBERS - 1);
@@ -76,7 +116,11 @@ class MemberCollectionTest {
     @Test
     void removeCheckLastNull() throws MemberDoesNotExistException, MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         memberCollection.remove("test" + (MAX_MEMBERS - 1));
         assertEquals(MemberCollection.members[MemberCollection.memberCount], null);
@@ -91,7 +135,11 @@ class MemberCollectionTest {
     @Test
     void removeExceptionFromFull() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
         assertThrows(MemberDoesNotExistException.class, () ->
                 memberCollection.remove("test"));
@@ -99,16 +147,28 @@ class MemberCollectionTest {
 
     @Test
     void search_1() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test",
+                "test",
+                "test",
+                "0000"));
         assertEquals(memberCollection.search("test"), 0);
     }
 
     @Test
     void searchLast() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
         for (int i = 0; i < MAX_MEMBERS - 1; i++) {
-            memberCollection.add(new Member("test" + i, "test", "test", "0000"));
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
         }
-        memberCollection.add(new Member("test_", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test_",
+                "test",
+                "test",
+                "0000"));
 
         assertEquals(memberCollection.search("test_"), MAX_MEMBERS - 1);
     }
@@ -120,15 +180,23 @@ class MemberCollectionTest {
 
     @Test
     void searchDoesntExist2() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test", "test", "test", "0000"));
+        memberCollection.add(new Member(
+                "test",
+                "test",
+                "test",
+                "0000"));
         assertEquals(memberCollection.search("aaa"), -1);
     }
 
     @Test
     void addOrder() throws MembersOutOfBoundsException, MemberAlreadyExistsException, PasswordOutOfBoundsException {
-        memberCollection.add(new Member("test2", "test", "test", "0000"));
-        memberCollection.add(new Member("test3", "test", "test", "0000"));
-        memberCollection.add(new Member("test1", "test", "test", "0000"));
+        for (int i = 3; i > 0; i--) {
+            memberCollection.add(new Member(
+                    "test" + i,
+                    "test",
+                    "test",
+                    "0000"));
+        }
         assertEquals(memberCollection.search("test1"), 0);
         assertEquals(memberCollection.search("test2"), 1);
         assertEquals(memberCollection.search("test3"), 2);

@@ -101,12 +101,11 @@ public class MovieCollection {
     }
 
     /**
-     * Return the node for a particular movie
-     *
+     * Return the movie class of a particular movie
      * @param movieTitle the title of the movie to search for
-     * @return the node of the movie
+     * @return the movie class of the movie
      */
-    public MovieNode Get(String movieTitle) {
+    public Movie Get(String movieTitle) throws MovieDoesNotExistException {
         // initialises the current node as root
         MovieNode current = root;
         // loop until current is null
@@ -124,11 +123,11 @@ public class MovieCollection {
             // if the key of the current node is equal to the movie key then return the current node
             else {
                 // return current node
-                return current;
+                return current.getMovie();
             }
         }
-        // if the movie can not be found in the tree then return null
-        return null;
+        // if the movie can not be found in the tree then throw exception
+        throw new MovieDoesNotExistException();
     }
 
     /**
@@ -137,7 +136,7 @@ public class MovieCollection {
      * @param movieTitle the title of the movie to delete
      * @return true if the movie is deleted successfully else false
      */
-    public boolean Delete(String movieTitle) throws NullPointerException {
+    public boolean Delete(String movieTitle) throws MovieDoesNotExistException {
 //        if (root == null) {
 //            return false;
 //        }
@@ -165,10 +164,10 @@ public class MovieCollection {
                 current = current.getRight();
             }
         }
-        // if the current node is found to be null then the movie can not be found and the method returns false
+        // if the current node is found to be null then the movie does not exist and an exception is thrown
         if (current == null) {
-            // return false
-            return false;
+            // throw new movie does not exist exception
+            throw new MovieDoesNotExistException();
         }
         // if node to be deleted has no children then it can simply be deleted
         if (current.getLeft() == null && current.getRight() == null) {

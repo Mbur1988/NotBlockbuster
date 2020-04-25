@@ -1,9 +1,6 @@
 package UserInterface;
 
-import CustomExceptions.MemberAlreadyExistsException;
-import CustomExceptions.MembersOutOfBoundsException;
-import CustomExceptions.MovieAlreadyExistsException;
-import CustomExceptions.PasswordOutOfBoundsException;
+import CustomExceptions.*;
 import Members.Member;
 import Movies.Movie;
 import static Main.Main.input;
@@ -40,7 +37,7 @@ public class StaffMenu {
             staffMenu();
         }
         else {
-            System.out.println("Username or password incorrect");
+            System.out.println("Password incorrect");
             mainMenu();
         }
     }
@@ -60,15 +57,20 @@ public class StaffMenu {
             String line = input.nextLine();
             if (line.equals("0")) {
                 mainMenu();
-            } else if (line.equals("1")) {
+            }
+            else if (line.equals("1")) {
                 addMovie();
-            } else if (line.equals("2")) {
+            }
+            else if (line.equals("2")) {
                 removeMovie();
-            } else if (line.equals("3")) {
+            }
+            else if (line.equals("3")) {
                 registerMember();
-            } else if (line.equals("4")) {
+            }
+            else if (line.equals("4")) {
                 findNumber();
-            } else {
+            }
+            else {
                 System.out.println("Must me a valid integer!");
             }
         }
@@ -167,7 +169,10 @@ public class StaffMenu {
     private static void removeMovie() {
         System.out.print("\nEnter the title of the movie to be deleted: ");
         String title = input.nextLine();
-        if(!movieCollection.Delete(title)) {
+        try {
+            movieCollection.Delete(title);
+        }
+        catch (MovieDoesNotExistException e) {
             System.out.println("No movie with this title exists in the movie collection");
         }
         staffMenu();
@@ -180,7 +185,8 @@ public class StaffMenu {
         String last = input.nextLine();
         if (memberCollection.search(last+first) != -1) {
             System.out.println(first + " " + last + " has already registered.");
-            return;
+            staffMenu();
+            //return;
         }
         System.out.print("Enter member's address: ");
         String address = input.nextLine();

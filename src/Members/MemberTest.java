@@ -14,7 +14,11 @@ class MemberTest {
 
     @BeforeEach
     void setUp() throws PasswordOutOfBoundsException {
-        member = new Member("test", "test", "test", "1234");
+        member = new Member(
+                "test",
+                "test",
+                "test",
+                "1234");
     }
 
     @Test
@@ -117,7 +121,7 @@ class MemberTest {
     }
 
     @Test
-    void notRenting() throws RentalsOutOfBoundsException, MovieAlreadyExistsException {
+    void notRenting() {
         assertEquals(member.Renting("test"), false);
     }
 }
