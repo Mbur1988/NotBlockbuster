@@ -1,21 +1,28 @@
 package Main;
 
+import java.util.Scanner;
 import Members.MemberCollection;
 import Movies.MovieCollection;
-import java.util.Scanner;
 import static UserInterface.MainMenu.mainMenu;
 
 public class Main {
+    // Create static instances for use in program
+    public static boolean exit;
+    public static Scanner input; // to get user input from console
+    public static MovieCollection movieCollection; // a binary search tree class used to store movies
+    public static MemberCollection memberCollection; // an array class used to store members
 
-    public static Scanner input;
-    public static MovieCollection movieCollection;
-    public static MemberCollection memberCollection;
-
+    // Main method
     public static void main(String[] args) {
 
+        // Initialise global variables
+        exit = false;
         input = new Scanner(System.in);
         movieCollection = new MovieCollection();
         memberCollection = new MemberCollection();
-        mainMenu();
+        // enter mainMenu()
+        while (!exit) {
+            mainMenu();
+        }
     }
 }

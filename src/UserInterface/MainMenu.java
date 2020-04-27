@@ -1,5 +1,6 @@
 package UserInterface;
 
+import static Main.Main.exit;
 import static UserInterface.MemberMenu.memberLogin;
 import static UserInterface.StaffMenu.staffLogin;
 import static Main.Main.input;
@@ -19,13 +20,16 @@ public class MainMenu {
 
             String line = input.nextLine();
             if (line.equals("0")) {
-                System.exit(1);
+                exit = true;
+                return;
             }
-            if (line.equals("1")) {
+            else if (line.equals("1")) {
                 staffLogin();
+                return;
             }
-            if (line.equals("2")) {
+            else if (line.equals("2")) {
                 memberLogin();
+                return;
             } else {
                 System.out.println("Must me a valid integer!");
             }

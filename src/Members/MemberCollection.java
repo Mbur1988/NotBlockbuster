@@ -124,7 +124,7 @@ public class MemberCollection {
             // update current search index
             mid = (lower + upper) / 2;
         }
-        // if the member does not exist in the members array then return -1
+        // if the member does not exist in the members array then throw member does not exist exception
         return -1;
     }
 }

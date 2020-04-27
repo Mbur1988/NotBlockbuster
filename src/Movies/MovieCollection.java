@@ -5,13 +5,22 @@ import CustomExceptions.MovieDoesNotExistException;
 
 public class MovieCollection {
 
-    public static MovieNode root;
+    private static MovieNode root;
 
     /**
      * Constructor
      */
     public MovieCollection() {
         this.root = null;
+    }
+
+    /**
+     * returns the root node of the movie collection
+     * Used only for testing purposes
+     * @return root movieNode
+     */
+    static MovieNode getRoot() {
+        return root;
     }
 
     /**
@@ -278,16 +287,97 @@ public class MovieCollection {
         return replacement;
     }
 
-    public void inOrder() {
-        inOrder(root);
+    /**
+     * User friendly method call to display all movie details in order of movie titles
+     */
+    public void displayInOrder() {
+        displayInOrder(root);
     }
 
-    private void inOrder(MovieNode node) {
+    /**
+     * Displays all movie details in order of movie titles
+     * @param node the root node of the binary search tree
+     */
+    private void displayInOrder(MovieNode node) {
         if (node == null) {
             return;
         }
-        inOrder(node.getLeft());
+        displayInOrder(node.getLeft());
         node.getMovie().display();
-        inOrder(node.getRight());
+        displayInOrder(node.getRight());
+    }
+
+    /**
+     * User friendly method to return the number of nodes that make up the binary search tree
+     * @return the number of nodes as an integer
+     */
+    public static int getSize() {
+        return getSize(root);
+    }
+
+    /**
+     * Returns the number of nodes that make up the binary search tree
+     * @param node the root node of the binary search tree
+     * @return the number of nodes as an integer
+     */
+    private static int getSize(MovieNode node){
+        if(node==null){
+            return 0;
+        }
+        return 1 + getSize(node.getLeft()) + getSize(node.getRight());
+    }
+
+    public static Movie[] getTopMovies() {
+        int size = getSize();
+        Movie[] movies = new Movie[size];
+        int index = 0;
+        getAllMovies(root, movies, index);
+        quicksort(movies);
+        return movies;
+    }
+
+    private static void getAllMovies(MovieNode node, Movie[] movies, int index) {
+        if (node == null) {
+            return;
+        }
+        // Get all movies from the left subtree first
+        getAllMovies(node.getLeft(), movies, index);
+        // Add the movie from this node to the array
+        movies[index++] = node.getMovie();
+        // Get all movies from the right subtree last
+        getAllMovies(node.getRight(), movies, index);
+    }
+
+    private static void quicksort(Movie[] movies) {
+        quicksort(movies, 0, movies.length - 1);
+    }
+
+    private static void quicksort(Movie[] movies, int left, int right) {
+        if(left < right) {
+            int pivot = partition(movies, left, right);
+            quicksort(movies, left, pivot - 1);
+            quicksort(movies, pivot + 1, right);
+        }
+    }
+
+    private static int partition(Movie[] movies, int left, int right) {
+        int pivot = movies[left].getCount();
+        while (left <= right) {
+            while (movies[left].getCount() > pivot) {
+                left++;
+            }
+            while (movies[right].getCount() < pivot) {
+                right--;
+            }
+            if (left <= right) {
+                Movie tmp = movies[left];
+                movies[left] = movies[right];
+                movies[right] = tmp;
+
+                left++;
+                right--;
+            }
+        }
+        return left;
     }
 }

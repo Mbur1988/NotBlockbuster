@@ -5,7 +5,6 @@ import CustomExceptions.MovieAlreadyExistsException;
 import CustomExceptions.MovieDoesNotExistException;
 import CustomExceptions.RentalsOutOfBoundsException;
 import Movies.Movie;
-
 import static Main.Main.*;
 import static UserInterface.MainMenu.mainMenu;
 
@@ -19,7 +18,7 @@ public class MemberMenu {
         username = input.nextLine();
         if (memberCollection.search(username) == -1) {
             System.out.println("User " + username + " does not exist.");
-            MainMenu.mainMenu();
+            return;
         }
         System.out.print("Enter password: ");
         String pass = input.nextLine();
@@ -28,17 +27,54 @@ public class MemberMenu {
             password = Integer.parseInt(pass);
         } catch (NumberFormatException e) {
             System.out.println("Password incorrect");
-            MainMenu.mainMenu();
+            return;
         }
         if (password == memberCollection.members[memberCollection.search(username)].getPassword()) {
             memberMenu();
-        } else {
-            System.out.print("Password incorrect");
-            MainMenu.mainMenu();
+            return;
+        }
+        else {
+            System.out.println("Password incorrect");
+            return;
         }
     }
 
     private static void memberMenu() {
+        memberMenuMessage();
+        while (true) {
+            System.out.print("Please make a selection (1-4, or 0 to return to main menu): ");
+
+            String line = input.nextLine();
+            if (line.equals("0")) {
+                return;
+            }
+            else if (line.equals("1")) {
+                displayMovies();
+                memberMenuMessage();
+            }
+            else if (line.equals("2")) {
+                borrowMovie();
+                memberMenuMessage();
+            }
+            else if (line.equals("3")) {
+                returnMovie();
+                memberMenuMessage();
+            }
+            else if (line.equals("4")) {
+                listCurrentRentals();
+                memberMenuMessage();
+            }
+            else if (line.equals("5")) {
+                displayTop10();
+                memberMenuMessage();
+            }
+            else {
+                System.out.println("Must me a valid integer!");
+            }
+        }
+    }
+
+    private static void memberMenuMessage() {
         System.out.println();
         System.out.println("===========Member Menu============");
         System.out.println("1. Display all movies");
@@ -48,31 +84,10 @@ public class MemberMenu {
         System.out.println("5. Display top 10 most popular movies");
         System.out.println("0. Return to main menu");
         System.out.println("================================");
-        while (true) {
-            System.out.print("Please make a selection (1-4, or 0 to return to main menu): ");
-
-            String line = input.nextLine();
-            if (line.equals("0")) {
-                mainMenu();
-            } else if (line.equals("1")) {
-                displayMovies();
-            } else if (line.equals("2")) {
-                borrowMovie();
-            } else if (line.equals("3")) {
-                returnMovie();
-            } else if (line.equals("4")) {
-                listCurrentRentals();
-            } else if (line.equals("5")) {
-                displayTop10();
-            } else {
-                System.out.println("Must me a valid integer!");
-            }
-        }
     }
 
     private static void displayMovies() {
-        movieCollection.inOrder();
-        memberMenu();
+        movieCollection.displayInOrder();
     }
 
     private static void borrowMovie() {
@@ -86,19 +101,18 @@ public class MemberMenu {
             memberCollection.members[memberCollection.search(username)].Rent(movieTitle);
             movie.incrementCount();
             System.out.println("You borrowed " + movieTitle);
-            memberMenu();
-        } catch (MovieDoesNotExistException e) {
+        }
+        catch (MovieDoesNotExistException e) {
             System.out.println("Movie " + movieTitle + " does not exist");
-            memberMenu();
-        } catch (CopiesOutOfBoundsException e) {
+        }
+        catch (CopiesOutOfBoundsException e) {
             System.out.println("Sorry, there are no copies of " + movieTitle + " available to rent");
-            memberMenu();
-        } catch (RentalsOutOfBoundsException e) {
+        }
+        catch (RentalsOutOfBoundsException e) {
             System.out.println("You can't borrow more then 10 movies - please return one first");
-            memberMenu();
-        } catch (MovieAlreadyExistsException e) {
+        }
+        catch (MovieAlreadyExistsException e) {
             System.out.println("You are already renting a copy of " + movieTitle);
-            memberMenu();
         }
     }
 
@@ -110,21 +124,30 @@ public class MemberMenu {
             memberCollection.members[memberCollection.search(username)].Return(movieTitle);
             movieCollection.Get(movieTitle).incrementCopies();
             System.out.println("You returned " + movieTitle);
-            memberMenu();
-        } catch (MovieDoesNotExistException e) {
+        }
+        catch (MovieDoesNotExistException e) {
             System.out.println("You are not currently renting " + movieTitle);
-            memberMenu();
-        } catch (CopiesOutOfBoundsException e) {
-            e.printStackTrace();
+        }
+        catch (CopiesOutOfBoundsException e) {
+            System.out.println("You can not return " + movieTitle);
         }
     }
 
     private static void listCurrentRentals() {
         memberCollection.members[memberCollection.search(username)].showRenting();
-        memberMenu();
     }
 
     private static void displayTop10() {
-
+        Movie[] movies = movieCollection.getTopMovies();
+        int count = 0;
+        while (count < 10) {
+            try {
+                System.out.println(count + 1 + ". " + movies[count].getTitle());
+                count++;
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+                return;
+            }
+        }
     }
 }

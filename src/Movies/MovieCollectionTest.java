@@ -28,7 +28,7 @@ class MovieCollectionTest {
                 1,
                 1);
         movieCollection.Insert(movie);
-        assertEquals(movieCollection.root.getMovie().getTitle(), "test");
+        assertEquals(movieCollection.getRoot().getMovie().getTitle(), "test");
     }
 
     @Test
@@ -53,7 +53,7 @@ class MovieCollectionTest {
                 1,
                 1);
         movieCollection.Insert(movie);
-        assertEquals(movieCollection.root.getLeft().getMovie().getTitle(), "a");
+        assertEquals(movieCollection.getRoot().getLeft().getMovie().getTitle(), "a");
     }
 
     @Test
@@ -78,7 +78,7 @@ class MovieCollectionTest {
                 2,
                 2);
         movieCollection.Insert(movie);
-        assertEquals(movieCollection.root.getRight().getMovie().getTitle(), "b");
+        assertEquals(movieCollection.getRoot().getRight().getMovie().getTitle(), "b");
     }
 
     @Test
@@ -180,6 +180,8 @@ class MovieCollectionTest {
                 1);
         movieCollection.Insert(movie);
         movieCollection.Delete("test");
+        assertThrows(MovieDoesNotExistException.class, () ->
+                movieCollection.Get("test"));
     }
 
     @Test
@@ -205,6 +207,8 @@ class MovieCollectionTest {
                 1);
         movieCollection.Insert(movie);
         movieCollection.Delete("a");
+        assertThrows(MovieDoesNotExistException.class, () ->
+                movieCollection.Get("a"));
     }
 
     @Test
@@ -230,6 +234,8 @@ class MovieCollectionTest {
                 2);
         movieCollection.Insert(movie);
         movieCollection.Delete("b");
+        assertThrows(MovieDoesNotExistException.class, () ->
+                movieCollection.Get("b"));
     }
 
     @Test
@@ -255,6 +261,47 @@ class MovieCollectionTest {
     }
 
     @Test
-    void inOrder() {
+    void getSize0() {
+        assertEquals(movieCollection.getSize(), 0);
+    }
+
+    @Test
+    void getSize1() throws MovieAlreadyExistsException {
+        Movie movie = new Movie(
+                "test",
+                "test",
+                "test",
+                "test",
+                "test",
+                1,
+                1,
+                1);
+        movieCollection.Insert(movie);
+        assertEquals(movieCollection.getSize(), 1);
+    }
+
+    @Test
+    void getSize2() throws MovieAlreadyExistsException {
+        Movie movie = new Movie(
+                "a",
+                "test",
+                "test",
+                "test",
+                "test",
+                1,
+                1,
+                1);
+        movieCollection.Insert(movie);
+        movie = new Movie(
+                "b",
+                "test",
+                "test",
+                "test",
+                "test",
+                2,
+                2,
+                2);
+        movieCollection.Insert(movie);
+        assertEquals(movieCollection.getSize(), 2);
     }
 }
