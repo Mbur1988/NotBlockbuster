@@ -52,127 +52,11 @@ public class Movie {
     }
 
     /**
-     * Function to set the title of the movie
-     * @param title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * Function to get the list of stars starring in the movie
-     * @return  an array list of strings
-     */
-    public String getStarring() {
-        return starring;
-    }
-
-    /**
-     * Function to set the list of stars starring in the movie
-     * @param starring
-     */
-    public void setStarring(String starring) {
-        this.starring = starring;
-    }
-
-    /**
-     * Function to get the director of the movie
-     * @return directors name as string
-     */
-    public String getDirector() {
-        return director;
-    }
-
-    /**
-     * Function to set the director of the movie
-     * @param director
-     */
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
-    /**
-     * Function to get the genre of the movie
-     * @return movie genre as string
-     */
-    public String getGenre() {
-        return genre;
-    }
-
-    /**
-     * Function to set the genre of the movie
-     * @param genre
-     */
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    /**
-     * Function to get the classification of the movie
-     * @return movie classification as string
-     */
-    public String getClassification() {
-        return classification;
-    }
-
-    /**
-     * Function to set classification of the movie
-     * @param classification
-     */
-    public void setClassification(String classification) {
-        this.classification = classification;
-    }
-
-    /**
      * Function to get the duration of the movie
      * @return movie duration as duration
      */
     public int getDuration() {
         return duration;
-    }
-
-    /**
-     * Function to set the duration of the movie
-     * @param duration
-     */
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
-    /**
-     * Function to get the release date movie
-     * @return movie release date as local date
-     */
-    public int getRelease_date() {
-        return release_date;
-    }
-
-    /**
-     * Function to set the release date of the movie
-     * @param release_date
-     */
-    public void setRelease_date(int release_date) {
-        this.release_date = release_date;
-    }
-
-    /**
-     * Function to get the number of available copies
-<<<<<<< Updated upstream
-     * @return
-=======
-     * @return number of copies available as int
->>>>>>> Stashed changes
-     */
-    public int getCopies() {
-        return copies;
-    }
-
-    /**
-     * Function to set the number of available copies
-     * @param copies
-     */
-    private void setCopies(int copies) {
-        this.copies = copies;
     }
 
     /**
@@ -208,25 +92,15 @@ public class Movie {
     }
 
     /**
-     * Function to set count
-     * @param count
-     */
-    public void setCount(int count) {
-        if (count > 10 || count < 0) {
-            throw new IndexOutOfBoundsException("Index " + count + " is out of bounds!");
-        }
-        else {
-            this.count = count;
-        }
-    }
-
-    /**
      * Function to increment number of times the movie has been rented
      */
     public void incrementCount() {
         this.count++;
     }
 
+    /**
+     * print all movie info to console
+     */
     public void display() {
         System.out.println();
         System.out.println("Title: " + title);

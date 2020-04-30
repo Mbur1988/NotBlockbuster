@@ -26,7 +26,6 @@ public class MovieCollection {
     /**
      * Inserts a new movie node into the tree.
      * If a node containing the movie already exists in the tree then increment its number of copies
-     *
      * @param movie Instance of Movie class to insert into the tree
      */
     public void Insert(Movie movie) throws MovieAlreadyExistsException {
@@ -79,37 +78,6 @@ public class MovieCollection {
     }
 
     /**
-     * Checks whether a movie is in the tree
-     *
-     * @param movieTitle the title of the movie to search for
-     * @return true if the movie is present else false
-     */
-    private boolean Find(String movieTitle) {
-        // initialises the current node as root
-        MovieNode current = root;
-        // loop until current is null
-        while (current != null) {
-            // if the movie title is smaller than the title of the current node then search in the left subtree
-            if (movieTitle.compareTo(current.getMovie().getTitle()) < 0) {
-                // set the left node as the new current node
-                current = current.getLeft();
-            }
-            // if the movie title is greater than the title of the current node then search in the right subtree
-            else if (movieTitle.compareTo(current.getMovie().getTitle()) > 0) {
-                // set the right node as the new current node
-                current = current.getRight();
-            }
-            // if the key of the current node is equal to the movie key then return true
-            else {
-                // return true
-                return true;
-            }
-        }
-        // if the movie can not be found in the tree then return false
-        return false;
-    }
-
-    /**
      * Return the movie class of a particular movie
      * @param movieTitle the title of the movie to search for
      * @return the movie class of the movie
@@ -141,14 +109,10 @@ public class MovieCollection {
 
     /**
      * Deletes a movie from the tree
-     *
      * @param movieTitle the title of the movie to delete
      * @return true if the movie is deleted successfully else false
      */
     public boolean Delete(String movieTitle) throws MovieDoesNotExistException {
-//        if (root == null) {
-//            return false;
-//        }
         // declare current and parent placeholders for navigating the tree
         MovieNode parent = root;
         MovieNode current = root;
@@ -259,8 +223,7 @@ public class MovieCollection {
     }
 
     /**
-     * Gets the replacement node of one to be deleted. Updates parent left and right variables.
-     *
+     * Gets the replacement node of one to be deleted. the replacement is the minimum node of the right subtree
      * @param node the node that is to be deleted
      * @return the node that will take the place of the deleted node
      */
@@ -277,13 +240,14 @@ public class MovieCollection {
             // continue down left branch until the minimum is found
             current = current.getLeft();
         }
-        // if the successor has a right child add it to the left child node of its parent
+        // if the replacement has a right child add it to the left child node of its parent
         if (replacement != node.getRight()) {
-            //
+            // update the parent of the replacement's left node to the right node of the replacement
             parent.setLeft(replacement.getRight());
-            //
+            // update the right node of the replacement to the right node of the node to be deleted
             replacement.setRight(node.getRight());
         }
+        // return the replacement node
         return replacement;
     }
 
@@ -291,6 +255,7 @@ public class MovieCollection {
      * User friendly method call to display all movie details in order of movie titles
      */
     public void displayInOrder() {
+        // call displayInOrder() method with the root node of the binary search tree as its parameter
         displayInOrder(root);
     }
 
@@ -299,11 +264,15 @@ public class MovieCollection {
      * @param node the root node of the binary search tree
      */
     private void displayInOrder(MovieNode node) {
+        // if the node is null then return
         if (node == null) {
             return;
         }
+        // explore the left subtree first as this contains the lower values
         displayInOrder(node.getLeft());
+        // display the movie details of the current node
         node.getMovie().display();
+        // explore the right subtree last as this contains higher values
         displayInOrder(node.getRight());
     }
 
@@ -312,6 +281,7 @@ public class MovieCollection {
      * @return the number of nodes as an integer
      */
     public static int getSize() {
+        // call getSize() method with the root node of the binary search tree as its parameter
         return getSize(root);
     }
 
@@ -321,21 +291,37 @@ public class MovieCollection {
      * @return the number of nodes as an integer
      */
     private static int getSize(MovieNode node){
+        // if node is null then return 0
         if(node==null){
             return 0;
         }
+        // return 1 for each of the child nodes plus 1 for the current node
         return 1 + getSize(node.getLeft()) + getSize(node.getRight());
     }
 
+    /**
+     * Returns an array containing all movies in the collection ordered by the number of times they are rented
+     * @return array of movies sorted by number of rentals
+     */
     public static Movie[] getTopMovies() {
-        int size = getSize();
-        Movie[] movies = new Movie[size];
+        // declare and initialise an array of movies the size of the number of movies in the binary search tree
+        Movie[] movies = new Movie[getSize()];
+        // declare an integer as an index for the movie array - initialise to 0
         int index = 0;
+        // populate the movie array with all nodes contained in the binary search tree in ascending order
         getAllMovies(root, movies, index);
+        // sort the movies contained in the movies array by rental count using a quick sort algorithm
         quicksort(movies);
+        // return the sorted array of movies
         return movies;
     }
 
+    /**
+     * Populates an array with all movies contained in the binary search tree in lexicographical order
+     * @param node should be the root node of the tree when calling the method
+     * @param movies array to be populated. The array size should equal the number of nodes in the binary search tree
+     * @param index an integer index set to zero
+     */
     private static void getAllMovies(MovieNode node, Movie[] movies, int index) {
         if (node == null) {
             return;
@@ -348,36 +334,80 @@ public class MovieCollection {
         getAllMovies(node.getRight(), movies, index);
     }
 
+    /**
+     * Quicksort is a divide-and-conquer algorithm that comprises two main components; partition and quicksort.
+     * It works by selecting a 'pivot' element from the array and partitioning the other elements into two sub-arrays,
+     * according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.
+     * Mathematical analysis of quicksort shows that the average time efficiency of the algorithm is O(n log n)
+     * and that the worst case, is O(n2), although a worst case scenario is rare.
+     * An advantage of quicksort over other sorting algorithms is that it does not swap objects that are already
+     * in order which, generally, makes it faster. Additionally, quicksort does not require any temporary storage space,
+     * although, this advantage comes with the disadvantage of not preserving the array in its original form.
+     * @param movies the array to be sorted. In this program the list should comprise of movie objects as the quicksort
+     *               method has been modified to sort by movie objects by the number of rentals parameter 'count'.
+     */
     private static void quicksort(Movie[] movies) {
+        // calls the quicksort component specifying the left index as 0 and the right index as the array length -1
         quicksort(movies, 0, movies.length - 1);
     }
 
+    /**
+     * The quicksort component to the quicksort algorithm. The input array is processed by the partition method which
+     * splits the array into a pivot (the first element) and two smaller partitions (refer to partition method).
+     * Each of these partitions is then passed into this same quicksort method for recursive sorting until the array is
+     * sorted (left index is equal to or larger than the right index).
+     * @param movies the array or partitioned subarray to be sorted
+     * @param left the left index of the movies array to be sorted
+     * @param right the right index of the movies array to be sorted
+     */
     private static void quicksort(Movie[] movies, int left, int right) {
         if(left < right) {
+            // partition the array using the partition method and get the pivot value
             int pivot = partition(movies, left, right);
+            // quicksort the left partition recursively (values lower than the pivot)
             quicksort(movies, left, pivot - 1);
+            // quicksort the right partition recursively (values higher than the pivot)
             quicksort(movies, pivot + 1, right);
         }
     }
 
+    /**
+     * Based on Hoare's partition scheme. This version sets the first index of the array as the pivot and then uses two
+     * indices, starting at either end of the array. These two indices are moved toward each other until they detect a
+     * pair of elements, one greater than or equal to the pivot, one lesser or equal, that are in the wrong order
+     * relative to each other. These inverted elements are then swapped.
+     * @param movies the array or partitioned subarray to be sorted
+     * @param left the left index of the movies array to be sorted
+     * @param right the right index of the movies array to be sorted
+     * @return the movie rental count ot the pivot element as an integer
+     */
     private static int partition(Movie[] movies, int left, int right) {
+        // set the first index value as the pivot
         int pivot = movies[left].getCount();
+        // loop until the left index meets the right index
         while (left <= right) {
+            // increment left index through the array until an element is found with a value greater than the pivot
             while (movies[left].getCount() > pivot) {
+                // increment left index
                 left++;
             }
+            // decrement right index through the array until an element is found with a value less than the pivot
             while (movies[right].getCount() < pivot) {
+                // increment right index
                 right--;
             }
+            // ensure that the left index does not exceed the right index
             if (left <= right) {
+                // swap the elements at the left and right indices
                 Movie tmp = movies[left];
                 movies[left] = movies[right];
                 movies[right] = tmp;
-
+                // once the elements are swapped then increment/decrement indices
                 left++;
                 right--;
             }
         }
+        // return the final position of the left index as the pivot point
         return left;
     }
 }

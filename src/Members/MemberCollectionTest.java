@@ -174,7 +174,7 @@ class MemberCollectionTest {
     }
 
     @Test
-    void searchDoesntExist1() throws MembersOutOfBoundsException, MemberAlreadyExistsException {
+    void searchDoesntExist1() {
         assertEquals(memberCollection.search("aaa"), -1);
     }
 

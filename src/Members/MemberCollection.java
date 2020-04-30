@@ -60,35 +60,25 @@ public class MemberCollection {
         }
     }
 
-//    /**
-//     * Removes a current member from the sorted members array using binary search
-//     * @param member the member to be deleted
-//     */
-//    public void remove(Member member) throws MemberDoesNotExistException {
-//        int index = search(member.getFull_name());
-//        if (index == -1) {
-//            throw new MemberDoesNotExistException();
-//        }
-//        for (int i = index; i < memberCount - 1; i++) {
-//            members[i] = members[i + 1];
-//        }
-//        members[memberCount - 1] = null;
-//        memberCount--;
-//    }
-
     /**
      * Removes a current member from the sorted members array using binary search
+     * Not currently used in the program other then for testing purposes
      * @param member full name of the member to be deleted
      */
-    public void remove(String member) throws MemberDoesNotExistException {
+    void remove(String member) throws MemberDoesNotExistException {
+        // find the index of the member to be removed
         int index = search(member);
+        // if the member does not exist in the members array then throw exception
         if (index == -1) {
             throw new MemberDoesNotExistException();
         }
+        // shift all members in higher indexes 1 position to the left to close the gap left by the deleted entry
         for (int i = index; i < memberCount - 1; i++) {
             members[i] = members[i + 1];
         }
+        // set the last populated index to null
         members[memberCount - 1] = null;
+        // update members count to account for the deleted member
         memberCount--;
     }
 

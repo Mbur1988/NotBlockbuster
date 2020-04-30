@@ -24,14 +24,6 @@ public class MovieNode {
     }
 
     /**
-     * Function to set movie
-     * @param movie
-     */
-    public void setMovie(Movie movie) {
-        this.movie = movie;
-    }
-
-    /**
      * Function to get left node
      * @return left node
      */

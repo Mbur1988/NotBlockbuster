@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemberTest {
 
-    Member member;
+    private static Member member;
 
     @BeforeEach
     void setUp() throws PasswordOutOfBoundsException {
