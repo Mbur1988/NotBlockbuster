@@ -102,20 +102,47 @@ public class StaffMenu {
         Integer duration = null;
         while(duration == null) {
             System.out.print("Enter the duration (minutes): ");
-            try { duration = Integer.parseInt(input.nextLine()); }
-            catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
+            try {
+                duration = Integer.parseInt(input.nextLine());
+                if(duration < 0) {
+                    throw new DurationOutOfBoundsException();
+                }
+            }
+            catch (NumberFormatException | DurationOutOfBoundsException e) {
+                System.out.println("Must me a valid integer!");
+            }
         }
         Integer release_date = null;
         while(release_date == null) {
             System.out.print("Enter the release date (year): ");
-            try { release_date = Integer.parseInt(input.nextLine()); }
-            catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
+            try {
+                release_date = Integer.parseInt(input.nextLine());
+                if (release_date < 1888 || release_date > 2020) {
+                    throw new ReleaseDateOutOfBoundsException();
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Must me a valid integer!");
+            }
+            catch (ReleaseDateOutOfBoundsException e) {
+                System.out.println("Release date must be between 1888-2020");
+            }
         }
         Integer copies = null;
         while(copies == null) {
             System.out.print("Enter the number of copies available: ");
-            try { copies = Integer.parseInt(input.nextLine()); }
-            catch (NumberFormatException e) { System.out.println("Must me a valid integer!"); }
+            try {
+                copies = Integer.parseInt(input.nextLine());
+                if (copies < 1 || copies > 10) {
+                    throw new CopiesOutOfBoundsException();
+                }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Must me a valid integer!");
+            }
+            catch (CopiesOutOfBoundsException e) {
+                System.out.println("Copies must be between 1 - 10");
+            }
         }
         Movie movie = new Movie(title,
                 starring,
