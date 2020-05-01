@@ -6,12 +6,14 @@ import CustomExceptions.MovieDoesNotExistException;
 public class MovieCollection {
 
     private static MovieNode root;
+    private static int count;
 
     /**
      * Constructor
      */
     public MovieCollection() {
         this.root = null;
+        this.count = 0;
     }
 
     /**
@@ -35,6 +37,8 @@ public class MovieCollection {
         if (root == null) {
             // set node to root
             root = node;
+            // increment count
+            this.count++;
             // end method
             return;
         }
@@ -53,6 +57,8 @@ public class MovieCollection {
                 if (current == null) {
                     // assign the new node to parent left which is the current node
                     parent.setLeft(node);
+                    // increment count
+                    this.count++;
                     // end method
                     return;
                 }
@@ -65,6 +71,8 @@ public class MovieCollection {
                 if (current == null) {
                     // assign the new node to parent right which is the current node
                     parent.setRight(node);
+                    // increment count
+                    this.count++;
                     // end method
                     return;
                 }
@@ -218,6 +226,8 @@ public class MovieCollection {
             // update the left child node of the replacement to that of the deleted node
             replacement.setLeft(current.getLeft());
         }
+        // decrement count when a movie has been deleted successfully
+        this.count--;
         // return true to indicate that the movie has been deleted successfully
         return true;
     }
@@ -277,35 +287,12 @@ public class MovieCollection {
     }
 
     /**
-     * User friendly method to return the number of nodes that make up the binary search tree
-     * @return the number of nodes as an integer
-     */
-    public static int getSize() {
-        // call getSize() method with the root node of the binary search tree as its parameter
-        return getSize(root);
-    }
-
-    /**
-     * Returns the number of nodes that make up the binary search tree
-     * @param node the root node of the binary search tree
-     * @return the number of nodes as an integer
-     */
-    private static int getSize(MovieNode node){
-        // if node is null then return 0
-        if(node==null){
-            return 0;
-        }
-        // return 1 for each of the child nodes plus 1 for the current node
-        return 1 + getSize(node.getLeft()) + getSize(node.getRight());
-    }
-
-    /**
      * Returns an array containing all movies in the collection ordered by the number of times they are rented
      * @return array of movies sorted by number of rentals
      */
     public static Movie[] getTopMovies() {
         // declare and initialise an array of movies the size of the number of movies in the binary search tree
-        Movie[] movies = new Movie[getSize()];
+        Movie[] movies = new Movie[count];
         // declare an integer as an index for the movie array - initialise to 0
         int index = 0;
         // populate the movie array with all nodes contained in the binary search tree in ascending order

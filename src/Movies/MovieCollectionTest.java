@@ -259,49 +259,4 @@ class MovieCollectionTest {
         assertThrows(MovieDoesNotExistException.class, () ->
                 movieCollection.Delete("test1"));
     }
-
-    @Test
-    void getSize0() {
-        assertEquals(movieCollection.getSize(), 0);
-    }
-
-    @Test
-    void getSize1() throws MovieAlreadyExistsException {
-        Movie movie = new Movie(
-                "test",
-                "test",
-                "test",
-                "test",
-                "test",
-                1,
-                1,
-                1);
-        movieCollection.Insert(movie);
-        assertEquals(movieCollection.getSize(), 1);
-    }
-
-    @Test
-    void getSize2() throws MovieAlreadyExistsException {
-        Movie movie = new Movie(
-                "a",
-                "test",
-                "test",
-                "test",
-                "test",
-                1,
-                1,
-                1);
-        movieCollection.Insert(movie);
-        movie = new Movie(
-                "b",
-                "test",
-                "test",
-                "test",
-                "test",
-                2,
-                2,
-                2);
-        movieCollection.Insert(movie);
-        assertEquals(movieCollection.getSize(), 2);
-    }
 }
