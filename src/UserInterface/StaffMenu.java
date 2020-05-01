@@ -136,7 +136,7 @@ public class StaffMenu {
             System.out.print("Enter the number of copies available: ");
             try {
                 copies = Integer.parseInt(input.nextLine());
-                if (copies < 1 || copies > 10) {
+                if (copies < 1) {
                     throw new CopiesOutOfBoundsException();
                 }
             }
@@ -146,7 +146,7 @@ public class StaffMenu {
             }
             catch (CopiesOutOfBoundsException e) {
                 copies = null;
-                System.out.println("Copies must be between 1 - 10");
+                System.out.println("Copies must be greater than 0");
             }
         }
         Movie movie = new Movie(title,
