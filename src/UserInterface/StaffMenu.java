@@ -104,11 +104,12 @@ public class StaffMenu {
             System.out.print("Enter the duration (minutes): ");
             try {
                 duration = Integer.parseInt(input.nextLine());
-                if(duration < 0) {
+                if (duration < 0) {
                     throw new DurationOutOfBoundsException();
                 }
             }
             catch (NumberFormatException | DurationOutOfBoundsException e) {
+                duration = null;
                 System.out.println("Must me a valid integer!");
             }
         }
@@ -122,9 +123,11 @@ public class StaffMenu {
                 }
             }
             catch (NumberFormatException e) {
+                release_date = null;
                 System.out.println("Must me a valid integer!");
             }
             catch (ReleaseDateOutOfBoundsException e) {
+                release_date = null;
                 System.out.println("Release date must be between 1888-2020");
             }
         }
@@ -138,9 +141,11 @@ public class StaffMenu {
                 }
             }
             catch (NumberFormatException e) {
+                copies = null;
                 System.out.println("Must me a valid integer!");
             }
             catch (CopiesOutOfBoundsException e) {
+                copies = null;
                 System.out.println("Copies must be between 1 - 10");
             }
         }
