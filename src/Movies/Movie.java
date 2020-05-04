@@ -55,7 +55,7 @@ public class Movie {
      * Function to get the duration of the movie
      * @return movie duration as duration
      */
-    public int getDuration() {
+    int getDuration() {
         return duration;
     }
 
@@ -84,13 +84,17 @@ public class Movie {
     }
 
     /**
-     * Function to get a count of the number of times the movie is rented out
+     * Function to get a count of the number of times the movie has been rented out
      * @return number of times the movie is rented out as int
      */
-    public int getCount() {
+    int getCount() {
         return count;
     }
 
+    /**
+     * Function to set the number of times the movie has been rented out
+     * @param count
+     */
     public void setCount(int count) {
         this.count = count;
     }
@@ -105,7 +109,7 @@ public class Movie {
     /**
      * print all movie info to console
      */
-    public void display() {
+    void display() {
         System.out.println();
         System.out.println("Title: " + title);
         System.out.println("Starring: " + starring);

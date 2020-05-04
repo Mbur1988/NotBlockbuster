@@ -6,7 +6,6 @@ import Movies.Movie;
 import static Main.Main.input;
 import static Main.Main.memberCollection;
 import static Main.Main.movieCollection;
-import static UserInterface.MainMenu.mainMenu;
 
 public class StaffMenu {
 

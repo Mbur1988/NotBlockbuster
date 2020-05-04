@@ -1,6 +1,5 @@
 package Main;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,7 +9,6 @@ import Movies.Movie;
 import Movies.MovieCollection;
 
 import static UserInterface.MainMenu.mainMenu;
-import static UserInterface.MemberMenu.displayTop10;
 
 public class Main {
     // Create static instances for use in program
@@ -27,26 +25,43 @@ public class Main {
         input = new Scanner(System.in);
         movieCollection = new MovieCollection();
         memberCollection = new MemberCollection();
-
-        Movie movie = new Movie("movie0", "test", "test", "test", "test", 1, 1, 1);
-        movie.setCount(1);
-        movieCollection.Insert(movie);
-        movie = new Movie("movie1", "test", "test", "test", "test", 1, 1, 4);
-        movie.setCount(4);
-        movieCollection.Insert(movie);
-        movie = new Movie("movie2", "test", "test", "test", "test", 1, 1, 2);
+        Movie movie = new Movie("movie00", "test", "test", "test", "test", 1, 1, 1);
         movie.setCount(2);
         movieCollection.Insert(movie);
-        movie = new Movie("movie3", "test", "test", "test", "test", 1, 1, 5);
-        movie.setCount(5);
-        movieCollection.Insert(movie);
-        movie = new Movie("movie4", "test", "test", "test", "test", 1, 1, 3);
+        movie = new Movie("movie01", "test", "test", "test", "test", 1, 1, 1);
         movie.setCount(3);
         movieCollection.Insert(movie);
-        movie = new Movie("movie5", "test", "test", "test", "test", 1, 1, 6);
-        movie.setCount(6);
+        movie = new Movie("movie02", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(5);
         movieCollection.Insert(movie);
-        displayTop10();
+        movie = new Movie("movie03", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(4);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie04", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(8);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie05", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(9);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie06", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(7);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie07", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(9);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie08", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(7);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie09", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(1);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie10", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(0);
+        movieCollection.Insert(movie);
+        movie = new Movie("movie11", "test", "test", "test", "test", 1, 1, 1);
+        movie.setCount(3);
+        movieCollection.Insert(movie);
+        movieCollection.displayTop10();
         // enter mainMenu()
         while (!exit) {
             mainMenu();

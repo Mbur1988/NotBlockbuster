@@ -6,7 +6,6 @@ import CustomExceptions.MovieDoesNotExistException;
 import CustomExceptions.RentalsOutOfBoundsException;
 import Movies.Movie;
 import static Main.Main.*;
-import static UserInterface.MainMenu.mainMenu;
 
 public class MemberMenu {
 
@@ -65,7 +64,7 @@ public class MemberMenu {
                 memberMenuMessage();
             }
             else if (line.equals("5")) {
-                displayTop10();
+                movieCollection.displayTop10();
                 memberMenuMessage();
             }
             else {
@@ -135,19 +134,5 @@ public class MemberMenu {
 
     private static void listCurrentRentals() {
         memberCollection.members[memberCollection.search(username)].showRenting();
-    }
-
-    public static void displayTop10() {
-        Movie[] movies = movieCollection.getTopMovies();
-        int count = 0;
-        while (count < 10) {
-            try {
-                System.out.println(count + 1 + ". " + movies[count].getTitle());
-                count++;
-            }
-            catch (ArrayIndexOutOfBoundsException e) {
-                return;
-            }
-        }
     }
 }

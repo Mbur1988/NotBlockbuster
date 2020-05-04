@@ -19,6 +19,7 @@ public class MovieCollection {
     /**
      * returns the root node of the movie collection
      * Used only for testing purposes
+     *
      * @return root movieNode
      */
     static MovieNode getRoot() {
@@ -28,6 +29,7 @@ public class MovieCollection {
     /**
      * Inserts a new movie node into the tree.
      * If a node containing the movie already exists in the tree then increment its number of copies
+     *
      * @param movie Instance of Movie class to insert into the tree
      */
     public void Insert(Movie movie) throws MovieAlreadyExistsException {
@@ -87,6 +89,7 @@ public class MovieCollection {
 
     /**
      * Return the movie class of a particular movie
+     *
      * @param movieTitle the title of the movie to search for
      * @return the movie class of the movie
      */
@@ -117,6 +120,7 @@ public class MovieCollection {
 
     /**
      * Deletes a movie from the tree
+     *
      * @param movieTitle the title of the movie to delete
      * @return true if the movie is deleted successfully else false
      */
@@ -234,6 +238,7 @@ public class MovieCollection {
 
     /**
      * Gets the replacement node of one to be deleted. the replacement is the minimum node of the right subtree
+     *
      * @param node the node that is to be deleted
      * @return the node that will take the place of the deleted node
      */
@@ -271,26 +276,27 @@ public class MovieCollection {
 
     /**
      * Displays all movie details in order of movie titles
+     *
      * @param node the root node of the binary search tree
      */
     private void displayInOrder(MovieNode node) {
         // if the node is null then return
-        if (node == null) {
-            return;
+        if (node != null) {
+            // explore the left subtree first as this contains the lower values
+            displayInOrder(node.getLeft());
+            // display the movie details of the current node
+            node.getMovie().display();
+            // explore the right subtree last as this contains higher values
+            displayInOrder(node.getRight());
         }
-        // explore the left subtree first as this contains the lower values
-        displayInOrder(node.getLeft());
-        // display the movie details of the current node
-        node.getMovie().display();
-        // explore the right subtree last as this contains higher values
-        displayInOrder(node.getRight());
     }
 
     /**
      * Returns an array containing all movies in the collection ordered by the number of times they are rented
+     *
      * @return array of movies sorted by number of rentals
      */
-    public static Movie[] getTopMovies() {
+    public static void displayTop10() {
         // declare and initialise an array of movies the size of the number of movies in the binary search tree
         Movie[] movies = new Movie[count];
         // declare an integer as an index for the movie array - initialise to 0
@@ -299,26 +305,25 @@ public class MovieCollection {
         getAllMovies(root, movies, index);
         // sort the movies contained in the movies array by rental count using a quick sort algorithm
         quicksort(movies);
-        // return the sorted array of movies
-        return movies;
+        printTop10(movies);
     }
 
     /**
      * Populates an array with all movies contained in the binary search tree in lexicographical order
-     * @param node should be the root node of the tree when calling the method
+     *
+     * @param node   should be the root node of the tree when calling the method
      * @param movies array to be populated. The array size should equal the number of nodes in the binary search tree
-     * @param index an integer index set to zero
+     * @param index  an integer index set to zero
      */
     private static void getAllMovies(MovieNode node, Movie[] movies, int index) {
-        if (node == null) {
-            return;
+        if (node != null) {
+            // Get all movies from the left subtree first
+            getAllMovies(node.getLeft(), movies, index);
+            // Add the movie from this node to the array
+            movies[index++] = node.getMovie();
+            // Get all movies from the right subtree last
+            getAllMovies(node.getRight(), movies, index);
         }
-        // Get all movies from the left subtree first
-        getAllMovies(node.getLeft(), movies, index);
-        // Add the movie from this node to the array
-        movies[index++] = node.getMovie();
-        // Get all movies from the right subtree last
-        getAllMovies(node.getRight(), movies, index);
     }
 
     /**
@@ -330,6 +335,7 @@ public class MovieCollection {
      * An advantage of quicksort over other sorting algorithms is that it does not swap objects that are already
      * in order which, generally, makes it faster. Additionally, quicksort does not require any temporary storage space,
      * although, this advantage comes with the disadvantage of not preserving the array in its original form.
+     *
      * @param movies the array to be sorted. In this program the list should comprise of movie objects as the quicksort
      *               method has been modified to sort by movie objects by the number of rentals parameter 'count'.
      */
@@ -343,18 +349,19 @@ public class MovieCollection {
      * splits the array into a pivot (the first element) and two smaller partitions (refer to partition method).
      * Each of these partitions is then passed into this same quicksort method for recursive sorting until the array is
      * sorted (left index is equal to or larger than the right index).
+     *
      * @param movies the array or partitioned subarray to be sorted
-     * @param low the left index of the movies array to be sorted
-     * @param hi the right index of the movies array to be sorted
+     * @param low    the low index of the movies array to be sorted
+     * @param high     the high index of the movies array to be sorted
      */
-    private static void quicksort(Movie[] movies, int low, int hi) {
-        if(hi > low) {
+    private static void quicksort(Movie[] movies, int low, int high) {
+        if (high > low) {
             // partition the array using the partition method and get the pivot value
-            int pivot = partition(movies, low, hi);
+            int pivot = partition(movies, low, high);
             // quicksort the left partition recursively (values lower than the pivot)
             quicksort(movies, low, pivot - 1);
             // quicksort the right partition recursively (values higher than the pivot)
-            quicksort(movies, pivot + 1, hi);
+            quicksort(movies, pivot + 1, high);
         }
     }
 
@@ -363,84 +370,63 @@ public class MovieCollection {
      * indices, starting at either end of the array. These two indices are moved toward each other until they detect a
      * pair of elements, one greater than or equal to the pivot, one lesser or equal, that are in the wrong order
      * relative to each other. These inverted elements are then swapped.
+     *
      * @param movies the array or partitioned subarray to be sorted
-     * @param low the left index of the movies array to be sorted
-     * @param hi the right index of the movies array to be sorted
+     * @param low  the low index of the movies array to be sorted
+     * @param high   the high index of the movies array to be sorted
      * @return the movie rental count ot the pivot element as an integer
      */
-    private static int partition(Movie[] movies, int first, int last) {
-
-        int pivot = movies[first].getCount(); // Choose the first element as the pivot
-        int low = first + 1; // Index for forward search
-        int high = last; // Index for backward search
-
-        while (high > low) {
-            // Search forward from left
-            while (low <= high && movies[low].getCount() <= pivot)
-                low++;
-
-            // Search backward from right
-            while (low <= high && movies[high].getCount() > pivot)
-                high--;
-
-            // Swap two elements in the list
-            if (high > low) {
-                Movie temp = movies[high];
-                movies[high] = movies[low];
-                movies[low] = temp;
+    private static int partition(Movie[] movies, int low, int high) {
+        // set the first index value as the pivot
+        int pivot = movies[low].getCount();
+        // set left and right search indexes
+        int left = low + 1; // Index for forward search
+        int right = high; // Index for backward search
+        // loop until the indexes meet
+        while (right > left) {
+            // increment left index through the array until an element is found with a value greater than the pivot
+            while (left <= right && movies[left].getCount() <= pivot)
+                left++;
+            // decrement right index through the array until an element is found with a value less than the pivot
+            while (left <= right && movies[right].getCount() > pivot)
+                right--;
+            // ensure that the right index is higher than the left index
+            if (right > left) {
+                // swap the elements at the left and right indices
+                Movie temp = movies[right];
+                movies[right] = movies[left];
+                movies[left] = temp;
             }
         }
-
-        while (high > first && movies[high].getCount() >= pivot)
-            high--;
-
-        // Swap pivot with list[high]
-        if (pivot > movies[high].getCount()) {
-            Movie temp = movies[first];
-            movies[first] = movies[high];
-            movies[high] = temp;
-            return high;
-        } else {
-            return first;
+        // find the index of the location of the pivot in the partitioned array
+        while (right > low && movies[right].getCount() >= pivot)
+            right--;
+        // put the pivot in the correct position and return its index
+        if (pivot > movies[right].getCount()) {
+            Movie temp = movies[low];
+            movies[low] = movies[right];
+            movies[right] = temp;
+            return right;
         }
+        //
+        else {
+            return low;
+        }
+    }
 
-//        // set the first index value as the pivot
-//        int pivot = movies[low].getCount();
-//        // set left and right search indexes
-//        int left = low + 1;
-//        int right = hi;
-//        // loop until the left index meets the right index
-//        while (right > left) {
-//            // increment left index through the array until an element is found with a value greater than the pivot
-//            while (movies[left].getCount() <= pivot && left <= right) {
-//                // increment left index
-//                left++;
-//            }
-//            // decrement right index through the array until an element is found with a value less than the pivot
-//            while (movies[right].getCount() > pivot && left <= right) {
-//                // increment right index
-//                right--;
-//            }
-//            // ensure that the right index is higher than the left index
-//            if (right > left) {
-//                // swap the elements at the left and right indices
-//                Movie tmp = movies[left];
-//                movies[left] = movies[right];
-//                movies[right] = tmp;
-//            }
-//        }
-//        while (right > low && movies[right].getCount() >= pivot)
-//            right--;
-//
-//        // Swap pivot with movies[right]
-//        if (pivot > movies[right].getCount()) {
-//            Movie tmp = movies[low];
-//            movies[low] = movies[right];
-//            movies[right] = tmp;
-//            return right;
-//        }
-//        else {
-//            return low;
-//        }
+    private static void printTop10(Movie[] movies) {
+        int count = 1;
+        for (int index = movies.length - 1; index > movies.length - 11; index--) {
+            try {
+                System.out.println(count++
+                        + ". "
+                        + movies[index].getTitle()
+                        + " - Rented " + movies[index].getCount()
+                        + " times");
+            }
+            catch (ArrayIndexOutOfBoundsException e) {
+                return;
+            }
+        }
     }
 }
