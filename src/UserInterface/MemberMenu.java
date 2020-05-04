@@ -137,7 +137,7 @@ public class MemberMenu {
         memberCollection.members[memberCollection.search(username)].showRenting();
     }
 
-    private static void displayTop10() {
+    public static void displayTop10() {
         Movie[] movies = movieCollection.getTopMovies();
         int count = 0;
         while (count < 10) {

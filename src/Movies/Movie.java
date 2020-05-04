@@ -91,6 +91,10 @@ public class Movie {
         return count;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     /**
      * Function to increment number of times the movie has been rented
      */

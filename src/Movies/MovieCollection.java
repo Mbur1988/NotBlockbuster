@@ -6,7 +6,7 @@ import CustomExceptions.MovieDoesNotExistException;
 public class MovieCollection {
 
     private static MovieNode root;
-    private static int count;
+    public static int count;
 
     /**
      * Constructor
@@ -344,17 +344,17 @@ public class MovieCollection {
      * Each of these partitions is then passed into this same quicksort method for recursive sorting until the array is
      * sorted (left index is equal to or larger than the right index).
      * @param movies the array or partitioned subarray to be sorted
-     * @param left the left index of the movies array to be sorted
-     * @param right the right index of the movies array to be sorted
+     * @param low the left index of the movies array to be sorted
+     * @param hi the right index of the movies array to be sorted
      */
-    private static void quicksort(Movie[] movies, int left, int right) {
-        if(left < right) {
+    private static void quicksort(Movie[] movies, int low, int hi) {
+        if(hi > low) {
             // partition the array using the partition method and get the pivot value
-            int pivot = partition(movies, left, right);
+            int pivot = partition(movies, low, hi);
             // quicksort the left partition recursively (values lower than the pivot)
-            quicksort(movies, left, pivot - 1);
+            quicksort(movies, low, pivot - 1);
             // quicksort the right partition recursively (values higher than the pivot)
-            quicksort(movies, pivot + 1, right);
+            quicksort(movies, pivot + 1, hi);
         }
     }
 
@@ -364,37 +364,83 @@ public class MovieCollection {
      * pair of elements, one greater than or equal to the pivot, one lesser or equal, that are in the wrong order
      * relative to each other. These inverted elements are then swapped.
      * @param movies the array or partitioned subarray to be sorted
-     * @param left the left index of the movies array to be sorted
-     * @param right the right index of the movies array to be sorted
+     * @param low the left index of the movies array to be sorted
+     * @param hi the right index of the movies array to be sorted
      * @return the movie rental count ot the pivot element as an integer
      */
-    private static int partition(Movie[] movies, int left, int right) {
-        // set the first index value as the pivot
-        int pivot = movies[left].getCount();
-        // loop until the left index meets the right index
-        while (left <= right) {
-            // increment left index through the array until an element is found with a value greater than the pivot
-            while (movies[left].getCount() > pivot) {
-                // increment left index
-                left++;
-            }
-            // decrement right index through the array until an element is found with a value less than the pivot
-            while (movies[right].getCount() < pivot) {
-                // increment right index
-                right--;
-            }
-            // ensure that the left index does not exceed the right index
-            if (left <= right) {
-                // swap the elements at the left and right indices
-                Movie tmp = movies[left];
-                movies[left] = movies[right];
-                movies[right] = tmp;
-                // once the elements are swapped then increment/decrement indices
-                left++;
-                right--;
+    private static int partition(Movie[] movies, int first, int last) {
+
+        int pivot = movies[first].getCount(); // Choose the first element as the pivot
+        int low = first + 1; // Index for forward search
+        int high = last; // Index for backward search
+
+        while (high > low) {
+            // Search forward from left
+            while (low <= high && movies[low].getCount() <= pivot)
+                low++;
+
+            // Search backward from right
+            while (low <= high && movies[high].getCount() > pivot)
+                high--;
+
+            // Swap two elements in the list
+            if (high > low) {
+                Movie temp = movies[high];
+                movies[high] = movies[low];
+                movies[low] = temp;
             }
         }
-        // return the final position of the left index as the pivot point
-        return left;
+
+        while (high > first && movies[high].getCount() >= pivot)
+            high--;
+
+        // Swap pivot with list[high]
+        if (pivot > movies[high].getCount()) {
+            Movie temp = movies[first];
+            movies[first] = movies[high];
+            movies[high] = temp;
+            return high;
+        } else {
+            return first;
+        }
+
+//        // set the first index value as the pivot
+//        int pivot = movies[low].getCount();
+//        // set left and right search indexes
+//        int left = low + 1;
+//        int right = hi;
+//        // loop until the left index meets the right index
+//        while (right > left) {
+//            // increment left index through the array until an element is found with a value greater than the pivot
+//            while (movies[left].getCount() <= pivot && left <= right) {
+//                // increment left index
+//                left++;
+//            }
+//            // decrement right index through the array until an element is found with a value less than the pivot
+//            while (movies[right].getCount() > pivot && left <= right) {
+//                // increment right index
+//                right--;
+//            }
+//            // ensure that the right index is higher than the left index
+//            if (right > left) {
+//                // swap the elements at the left and right indices
+//                Movie tmp = movies[left];
+//                movies[left] = movies[right];
+//                movies[right] = tmp;
+//            }
+//        }
+//        while (right > low && movies[right].getCount() >= pivot)
+//            right--;
+//
+//        // Swap pivot with movies[right]
+//        if (pivot > movies[right].getCount()) {
+//            Movie tmp = movies[low];
+//            movies[low] = movies[right];
+//            movies[right] = tmp;
+//            return right;
+//        }
+//        else {
+//            return low;
+//        }
     }
 }
