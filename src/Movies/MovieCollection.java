@@ -345,72 +345,58 @@ public class MovieCollection {
     }
 
     /**
-     * The quicksort component to the quicksort algorithm. The input array is processed by the partition method which
-     * splits the array into a pivot (the first element) and two smaller partitions (refer to partition method).
-     * Each of these partitions is then passed into this same quicksort method for recursive sorting until the array is
-     * sorted (left index is equal to or larger than the right index).
-     *
+     * The quicksort algorithm. The input array is processed by the partition method which splits the array into a pivot
+     * (the first element) and two smaller partitions (refer to partition method). Each of these partitions is then
+     * passed into this same quicksort method for recursive sorting until the array is sorted (left index is equal to or
+     * larger than the right index).
+     * This quicksort uses Hoare's partition scheme and the first index of the array as the pivot. The left and right
+     * indices of the array are moved toward each other until they detect a pair of elements, one greater than or equal
+     * to the pivot, one lesser or equal, that are in the wrong order relative to each other. These inverted elements
+     * are then swapped.
      * @param movies the array or partitioned subarray to be sorted
      * @param low    the low index of the movies array to be sorted
      * @param high     the high index of the movies array to be sorted
      */
     private static void quicksort(Movie[] movies, int low, int high) {
         if (high > low) {
-            // partition the array using the partition method and get the pivot value
-            int pivot = partition(movies, low, high);
+            // set the first index value as the pivot
+            int pivot = movies[low].getCount();
+            // set left and right search indexes
+            int left = low + 1; // Index for forward search
+            int right = high; // Index for backward search
+            // loop until the indexes meet
+            while (right > left) {
+                // increment left index through the array until an element is found with a value greater than the pivot
+                while (left <= right && movies[left].getCount() <= pivot)
+                    left++;
+                // decrement right index through the array until an element is found with a value less than the pivot
+                while (left <= right && movies[right].getCount() > pivot)
+                    right--;
+                // ensure that the right index is higher than the left index
+                if (right > left) {
+                    // swap the elements at the left and right indices
+                    Movie temp = movies[right];
+                    movies[right] = movies[left];
+                    movies[left] = temp;
+                }
+            }
+            // find the index of the location of the pivot in the partitioned array
+            while (right > low && movies[right].getCount() >= pivot)
+                right--;
+            // put the pivot in the correct position and return its index
+            if (pivot > movies[right].getCount()) {
+                Movie temp = movies[low];
+                movies[low] = movies[right];
+                movies[right] = temp;
+                pivot = right;
+            }
+            else {
+                pivot = low;
+            }
             // quicksort the left partition recursively (values lower than the pivot)
             quicksort(movies, low, pivot - 1);
             // quicksort the right partition recursively (values higher than the pivot)
             quicksort(movies, pivot + 1, high);
-        }
-    }
-
-    /**
-     * Based on Hoare's partition scheme. This version sets the first index of the array as the pivot and then uses two
-     * indices, starting at either end of the array. These two indices are moved toward each other until they detect a
-     * pair of elements, one greater than or equal to the pivot, one lesser or equal, that are in the wrong order
-     * relative to each other. These inverted elements are then swapped.
-     *
-     * @param movies the array or partitioned subarray to be sorted
-     * @param low  the low index of the movies array to be sorted
-     * @param high   the high index of the movies array to be sorted
-     * @return the movie rental count ot the pivot element as an integer
-     */
-    private static int partition(Movie[] movies, int low, int high) {
-        // set the first index value as the pivot
-        int pivot = movies[low].getCount();
-        // set left and right search indexes
-        int left = low + 1; // Index for forward search
-        int right = high; // Index for backward search
-        // loop until the indexes meet
-        while (right > left) {
-            // increment left index through the array until an element is found with a value greater than the pivot
-            while (left <= right && movies[left].getCount() <= pivot)
-                left++;
-            // decrement right index through the array until an element is found with a value less than the pivot
-            while (left <= right && movies[right].getCount() > pivot)
-                right--;
-            // ensure that the right index is higher than the left index
-            if (right > left) {
-                // swap the elements at the left and right indices
-                Movie temp = movies[right];
-                movies[right] = movies[left];
-                movies[left] = temp;
-            }
-        }
-        // find the index of the location of the pivot in the partitioned array
-        while (right > low && movies[right].getCount() >= pivot)
-            right--;
-        // put the pivot in the correct position and return its index
-        if (pivot > movies[right].getCount()) {
-            Movie temp = movies[low];
-            movies[low] = movies[right];
-            movies[right] = temp;
-            return right;
-        }
-        //
-        else {
-            return low;
         }
     }
 
