@@ -315,15 +315,16 @@ public class MovieCollection {
      * @param movies array to be populated. The array size should equal the number of nodes in the binary search tree
      * @param index  an integer index set to zero
      */
-    private static void getAllMovies(MovieNode node, Movie[] movies, int index) {
+    private static int getAllMovies(MovieNode node, Movie[] movies, int index) {
         if (node != null) {
             // Get all movies from the left subtree first
-            getAllMovies(node.getLeft(), movies, index);
+            index = getAllMovies(node.getLeft(), movies, index);
             // Add the movie from this node to the array
             movies[index++] = node.getMovie();
             // Get all movies from the right subtree last
-            getAllMovies(node.getRight(), movies, index);
+            index = getAllMovies(node.getRight(), movies, index);
         }
+        return index;
     }
 
     /**

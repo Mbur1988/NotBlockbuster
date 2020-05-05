@@ -1,7 +1,7 @@
 package Main;
 
 import java.util.Scanner;
-
+import CustomExceptions.MovieAlreadyExistsException;
 import Members.MemberCollection;
 import Movies.MovieCollection;
 
