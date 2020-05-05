@@ -92,14 +92,6 @@ public class Movie {
     }
 
     /**
-     * Function to set the number of times the movie has been rented out
-     * @param count
-     */
-    public void setCount(int count) {
-        this.count = count;
-    }
-
-    /**
      * Function to increment number of times the movie has been rented
      */
     public void incrementCount() {

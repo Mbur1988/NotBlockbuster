@@ -2,13 +2,13 @@ package Main;
 
 import java.util.Scanner;
 
-import CustomExceptions.MovieAlreadyExistsException;
 import Members.MemberCollection;
 import Movies.MovieCollection;
 
 import static UserInterface.MainMenu.mainMenu;
 
 public class Main {
+
     // Create static instances for use in program
     public static boolean exit;
     public static Scanner input; // to get user input from console
@@ -16,8 +16,7 @@ public class Main {
     public static MemberCollection memberCollection; // an array class used to store members
 
     // Main method
-    public static void main(String[] args) throws MovieAlreadyExistsException {
-
+    public static void main(String[] args) {
         // Initialise global variables
         exit = false;
         input = new Scanner(System.in);

@@ -414,6 +414,11 @@ public class MovieCollection {
         }
     }
 
+    /**
+     * Prints the last 10 movie titles in descending order. if there are less than 10 elements in the array then only
+     * print those.
+     * @param movies
+     */
     private static void printTop10(Movie[] movies) {
         int count = 1;
         for (int index = movies.length - 1; index > movies.length - 11; index--) {
