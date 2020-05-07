@@ -292,17 +292,15 @@ public class MovieCollection {
     }
 
     /**
-     * Returns an array containing all movies in the collection ordered by the number of times they are rented
+     * Displays the top 10 movies in the collection in descending order of the number of times they are rented
      *
      * @return array of movies sorted by number of rentals
      */
     public static void displayTop10() {
         // declare and initialise an array of movies the size of the number of movies in the binary search tree
         Movie[] movies = new Movie[count];
-        // declare an integer as an index for the movie array - initialise to 0
-        int index = 0;
         // populate the movie array with all nodes contained in the binary search tree in ascending order
-        getAllMovies(root, movies, index);
+        getAllMovies(root, movies, 0);
         // sort the movies contained in the movies array by rental count using a quick sort algorithm
         quicksort(movies);
         printTop10(movies);
